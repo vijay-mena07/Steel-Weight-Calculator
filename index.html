@@ -3,19 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Steel Weight Calculator Pro</title>
-<meta name="description" content="Free online steel weight calculator for MS sheets, angles, pipes, channels, beams and more.">
+<title>Steel Weight Calculator — MS Sheet, Angle, Pipe, Beam Weight Chart</title>
+<meta name="description" content="Free online steel weight calculator for MS sheet, plate, angle, round bar, square bar, pipe, tube, ISMC channel and ISMB beam. Includes formulas and weight charts in kg.">
+<meta name="keywords" content="steel weight calculator, ms sheet weight calculator, ms angle weight chart, pipe weight calculator, ismb weight, ismc weight, ms plate weight, steel weight formula">
+<meta name="author" content="Vijay Meena">
+<link rel="canonical" href="https://vijay-mena07.github.io/Steel-Weight-Calculator/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Steel Weight Calculator — Free Online Tool">
+<meta property="og:description" content="Calculate MS sheet, angle, pipe, channel and beam weight instantly. Free, accurate, mobile-friendly.">
+<meta property="og:url" content="https://vijay-mena07.github.io/Steel-Weight-Calculator/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>">
+
+<!-- ============ GOOGLE ADSENSE ============ -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+<!-- PDF export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-:root{
-  --primary:#667eea;--primary2:#764ba2;--dark:#2c3e50;--dark2:#34495e;
-  --green:#4caf50;--green-bg:#e8f5e9;--red:#e74c3c;
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Steel Weight Calculator Pro",
+  "url":"https://vijay-mena07.github.io/Steel-Weight-Calculator/",
+  "applicationCategory":"UtilitiesApplication",
+  "operatingSystem":"Any",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+  "description":"Free steel weight calculator for MS sheet, angle, pipe, channel and beam sections."
 }
+</script>
+
+<style>
+:root{--primary:#667eea;--primary2:#764ba2;--dark:#2c3e50;--dark2:#34495e;--green:#4caf50;--green-bg:#e8f5e9;--red:#e74c3c}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;padding:20px}
 .container{max-width:900px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden}
 header{background:linear-gradient(135deg,#2c3e50,#34495e);color:#fff;padding:24px;text-align:center}
-header h1{font-size:1.9em;margin-bottom:6px}
+header h1{font-size:1.85em;margin-bottom:6px}
 header p{opacity:.85;margin-bottom:16px;font-size:.95em}
 .header-controls{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 .control-group{display:flex;flex-direction:column;text-align:left;min-width:240px}
@@ -41,46 +70,71 @@ header p{opacity:.85;margin-bottom:16px;font-size:.95em}
 .result strong{color:#2e7d32}
 .action-buttons{display:flex;gap:10px;margin-top:12px}
 .action-btn{flex:1;padding:11px;background:var(--dark2);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;transition:.2s}
-.action-btn:hover{background:var(--dark);transform:translateY(-1px)}
+.action-btn:hover{background:var(--dark)}
 .saved{padding:24px 28px;background:#f8f9fa;border-top:2px solid #ecf0f1}
 .saved h3{color:var(--dark);margin-bottom:14px}
 .clear-btn{padding:7px 14px;background:var(--red);color:#fff;border:none;border-radius:5px;cursor:pointer;margin-bottom:14px;font-weight:600}
-.clear-btn:hover{background:#c0392b}
 .saved-item{background:#fff;padding:13px;border-radius:8px;border-left:4px solid var(--primary);display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 5px rgba(0,0,0,.08);margin-bottom:10px;gap:10px}
 .saved-item h4{color:var(--dark);font-size:.95em;margin-bottom:4px}
 .saved-item p{color:#666;font-size:.85em;margin:2px 0}
 .delete-btn{padding:7px 11px;background:var(--red);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:.85em}
-footer{background:#f8f9fa;padding:16px;text-align:center;color:#666;border-top:2px solid #ecf0f1;font-size:.88em}
-footer p{margin:3px 0}
+
+/* ---- Content / SEO block ---- */
+.content{padding:32px 28px;background:#fff;border-top:2px solid #ecf0f1;line-height:1.8;color:#444}
+.content h2{color:var(--dark);font-size:1.35em;margin:0 0 12px}
+.content h3{color:var(--dark2);font-size:1.08em;margin:24px 0 8px}
+.content p{margin-bottom:10px}
+.formula{background:#f4f6f8;padding:14px;border-radius:8px;font-family:monospace;margin:14px 0;border-left:4px solid var(--primary);overflow-x:auto}
+.chart{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92em}
+.chart th{background:var(--dark);color:#fff;padding:10px;text-align:left}
+.chart td{padding:9px 10px;border-bottom:1px solid #eee}
+.chart tr:nth-child(even) td{background:#fafbfc}
+.tbl-wrap{overflow-x:auto}
+
+/* ---- AdSense ---- */
+.ad-box{margin:18px auto;padding:10px;text-align:center;background:#fafbfc;border:1px solid #eceff1;border-radius:10px;min-height:100px;overflow:hidden;max-width:880px}
+.ad-box .ad-label{font-size:.68em;color:#b0bec5;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;display:block}
+.ad-box ins{display:block}
+ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
+
+footer{background:#f8f9fa;padding:22px;text-align:center;color:#666;border-top:2px solid #ecf0f1;font-size:.88em}
+footer p{margin:4px 0}
+footer nav{margin-top:12px}
+footer nav a{color:var(--primary);text-decoration:none;margin:0 10px;font-weight:600}
+footer nav a:hover{text-decoration:underline}
+
 @media(max-width:600px){
-  .section{padding:18px}
-  header h1{font-size:1.4em}
+  body{padding:10px}
+  .section,.content{padding:18px}
+  header h1{font-size:1.35em}
   .header-controls{flex-direction:column}
-  .control-group{min-width:100%;width:100%}
+  .control-group{min-width:100%}
   .saved{padding:18px}
+  .ad-box{margin:12px auto;padding:6px;min-height:90px}
 }
 </style>
 </head>
 <body>
 <div class="container">
+
   <header>
     <h1>🏗️ Steel Weight Calculator Pro</h1>
-    <p>Calculate weight for MS Sheets, Angles, Bars, Pipes, Channels & Beams</p>
+    <p>Calculate weight of MS Sheets, Angles, Bars, Pipes, Channels &amp; Beams</p>
     <div class="header-controls">
       <div class="control-group">
-        <label>Material</label>
+        <label for="material">Material</label>
         <select id="material">
           <option value="7850">Mild Steel (MS) — 7850 kg/m³</option>
           <option value="7850">Carbon Steel — 7850 kg/m³</option>
           <option value="8000">Stainless Steel (SS 304) — 8000 kg/m³</option>
-          <option value="2700">Aluminum — 2700 kg/m³</option>
+          <option value="2700">Aluminium — 2700 kg/m³</option>
           <option value="8900">Copper — 8900 kg/m³</option>
           <option value="8500">Brass — 8500 kg/m³</option>
           <option value="7200">Cast Iron — 7200 kg/m³</option>
         </select>
       </div>
       <div class="control-group">
-        <label>Units</label>
+        <label for="unit">Units</label>
         <select id="unit" onchange="onUnitChange()">
           <option value="metric">Metric (mm, kg)</option>
           <option value="imperial">Imperial (inch, lbs)</option>
@@ -98,6 +152,17 @@ footer p{margin:3px 0}
     <button class="tab-btn" onclick="showTab('tube',this)">Square Tube</button>
     <button class="tab-btn" onclick="showTab('channel',this)">Channel</button>
     <button class="tab-btn" onclick="showTab('beam',this)">I-Beam</button>
+  </div>
+
+  <!-- ===== AD 1 : TOP BANNER ===== -->
+  <div class="ad-box">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="1111111111"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
   </div>
 
   <!-- SHEET -->
@@ -129,7 +194,7 @@ footer p{margin:3px 0}
         <option value="75,75,6">75 × 75 × 6 mm</option>
         <option value="100,100,10">100 × 100 × 10 mm</option>
         <option value="150,150,12">150 × 150 × 12 mm</option>
-        <option value="custom">Custom size...</option>
+        <option value="custom">Custom size…</option>
       </select>
     </div>
     <div class="field"><label>Side A (<span class="u">mm</span>)</label><input type="number" id="angle-a" placeholder="e.g. 50"></div>
@@ -213,9 +278,9 @@ footer p{margin:3px 0}
         <option value="75,40,4.8,7.5">ISMC 75 (75×40×4.8)</option>
         <option value="100,50,5,7.5">ISMC 100 (100×50×5)</option>
         <option value="125,65,5.3,8.1">ISMC 125 (125×65×5.3)</option>
-        <option value="150,75,5.7,8.5">ISMC 150 (150×75×5.7)</option>
-        <option value="200,75,6.2,9.2">ISMC 200 (200×75×6.2)</option>
-        <option value="custom">Custom size...</option>
+        <option value="150,75,5.7,9">ISMC 150 (150×75×5.7)</option>
+        <option value="200,75,6.2,11.4">ISMC 200 (200×75×6.2)</option>
+        <option value="custom">Custom size…</option>
       </select>
     </div>
     <div class="field"><label>Height (<span class="u">mm</span>)</label><input type="number" id="ch-h" placeholder="e.g. 100"></div>
@@ -239,11 +304,11 @@ footer p{margin:3px 0}
       <select id="bm-std" onchange="fillBeam()">
         <option value="">-- Select standard size --</option>
         <option value="100,75,4,7.2">ISMB 100</option>
-        <option value="150,80,4.8,9">ISMB 150</option>
+        <option value="150,80,4.8,7.6">ISMB 150</option>
         <option value="200,100,5.7,10.8">ISMB 200</option>
-        <option value="250,125,6.5,12.5">ISMB 250</option>
-        <option value="300,140,7.5,13.1">ISMB 300</option>
-        <option value="custom">Custom size...</option>
+        <option value="250,125,6.9,12.5">ISMB 250</option>
+        <option value="300,140,7.5,12.4">ISMB 300</option>
+        <option value="custom">Custom size…</option>
       </select>
     </div>
     <div class="field"><label>Height (<span class="u">mm</span>)</label><input type="number" id="bm-h" placeholder="e.g. 200"></div>
@@ -260,6 +325,17 @@ footer p{margin:3px 0}
     </div>
   </div>
 
+  <!-- ===== AD 2 : IN-ARTICLE ===== -->
+  <div class="ad-box">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="2222222222"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
   <!-- SAVED -->
   <div class="saved">
     <h3>📋 Saved Calculations</h3>
@@ -267,166 +343,260 @@ footer p{margin:3px 0}
     <div id="saved-list"></div>
   </div>
 
+  <!-- ===== SEO / CONTENT BLOCK ===== -->
+  <div class="content">
+    <h2>How to Calculate Steel Weight</h2>
+    <p>Steel weight is determined by multiplying the volume of the section by the density of the material. For mild steel, the internationally accepted density is <strong>7850 kg/m³</strong> (7.85 g/cm³). Every calculator on this page uses the following core relationship:</p>
+    <div class="formula">Weight (kg) = Volume (mm³) × Density (kg/m³) ÷ 1,000,000,000</div>
+    <p>Volume is obtained by multiplying the cross-sectional area of the profile by its length. The only part that changes between a plate, an angle, a pipe or a beam is how that cross-sectional area is derived — which is exactly what this tool automates for you.</p>
+
+    <h3>MS Sheet and Plate Weight</h3>
+    <p>A sheet or plate is a simple rectangular solid, so the volume is <em>length × width × thickness</em>. For example, a standard 2440 × 1220 × 6 mm MS plate works out to roughly 140 kg. In Indian trade practice, material under 5 mm thickness is normally called a <strong>sheet</strong>, while 5 mm and above is called a <strong>plate</strong>. Common commercial sheet sizes are 8′×4′ (2440 × 1220 mm) and 6′×3′ (1830 × 915 mm).</p>
+
+    <h3>MS Angle Weight</h3>
+    <p>An angle's cross-sectional area is calculated as <em>(A + B − T) × T</em>, where A and B are the two leg lengths and T is the thickness. The thickness is subtracted once because the corner region would otherwise be counted twice — this is the single most common mistake people make when calculating angle weight by hand. A 50 × 50 × 6 mm angle in a standard 6-metre length weighs approximately 26.6 kg.</p>
+
+    <h3>Pipe and Hollow Section Weight</h3>
+    <p>For any hollow section, subtract the inner area from the outer area before multiplying by length. For round pipe the formula is <em>π × (R² − r²)</em>, where R is the outer radius and r is the inner radius. A 60 mm OD pipe with 3 mm wall thickness weighs about 4.22 kg per running metre. For square and rectangular tube, the equivalent is <em>(W × H) − ((W − 2T) × (H − 2T))</em>.</p>
+
+    <h3>Channel and Beam Weight</h3>
+    <p>ISMC channels and ISMB beams are treated as a web plus two flanges: <em>(H − 2Tf) × Tw + 2 × W × Tf</em>. This gives a close approximation, typically within 2–4% of the value published in IS 808, because it ignores the root radius and the flange taper. For exact structural calculations, always refer to the IS 808 section tables or the mill test certificate.</p>
+
+    <h3>MS Angle Weight Chart (kg per metre)</h3>
+    <div class="tbl-wrap">
+    <table class="chart">
+      <thead><tr><th>Size (mm)</th><th>Weight (kg/m)</th><th>6 m Length (kg)</th></tr></thead>
+      <tbody>
+        <tr><td>25 × 25 × 3</td><td>1.10</td><td>6.6</td></tr>
+        <tr><td>25 × 25 × 5</td><td>1.77</td><td>10.6</td></tr>
+        <tr><td>40 × 40 × 6</td><td>3.48</td><td>20.9</td></tr>
+        <tr><td>50 × 50 × 6</td><td>4.43</td><td>26.6</td></tr>
+        <tr><td>65 × 65 × 6</td><td>5.84</td><td>35.0</td></tr>
+        <tr><td>75 × 75 × 6</td><td>6.79</td><td>40.7</td></tr>
+        <tr><td>100 × 100 × 10</td><td>14.90</td><td>89.4</td></tr>
+        <tr><td>150 × 150 × 12</td><td>27.02</td><td>162.1</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>MS Round Bar Weight Chart (kg per metre)</h3>
+    <div class="tbl-wrap">
+    <table class="chart">
+      <thead><tr><th>Diameter (mm)</th><th>Weight (kg/m)</th><th>Quick Formula</th></tr></thead>
+      <tbody>
+        <tr><td>8</td><td>0.395</td><td rowspan="6" style="vertical-align:middle">D² ÷ 162<br><small>(D in mm, result kg/m)</small></td></tr>
+        <tr><td>10</td><td>0.617</td></tr>
+        <tr><td>12</td><td>0.888</td></tr>
+        <tr><td>16</td><td>1.578</td></tr>
+        <tr><td>20</td><td>2.466</td></tr>
+        <tr><td>25</td><td>3.854</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The well-known shortcut <strong>D² ÷ 162</strong> used by site engineers for TMT and round bars is simply a simplified form of the full volume × density formula, and it matches this calculator's output closely.</p>
+
+    <h3>MS Plate Weight Chart (kg per square metre)</h3>
+    <div class="tbl-wrap">
+    <table class="chart">
+      <thead><tr><th>Thickness (mm)</th><th>Weight (kg/m²)</th><th>8′ × 4′ Sheet (kg)</th></tr></thead>
+      <tbody>
+        <tr><td>2</td><td>15.70</td><td>46.7</td></tr>
+        <tr><td>3</td><td>23.55</td><td>70.1</td></tr>
+        <tr><td>5</td><td>39.25</td><td>116.9</td></tr>
+        <tr><td>6</td><td>47.10</td><td>140.2</td></tr>
+        <tr><td>8</td><td>62.80</td><td>186.9</td></tr>
+        <tr><td>10</td><td>78.50</td><td>233.7</td></tr>
+        <tr><td>12</td><td>94.20</td><td>280.4</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Frequently Asked Questions</h3>
+    <p><strong>Why does the actual delivered weight differ from the calculated weight?</strong><br>
+    Rolling mills work within tolerance limits defined by standards such as IS 1852 and IS 1730. Real sections vary by roughly ±2–3% because of thickness variation across the width, mill scale, rounded corners and flange taper. Always treat calculator output as an estimate for costing and load planning, not as a certified figure.</p>
+
+    <p><strong>What is the density of mild steel?</strong><br>
+    7850 kg/m³. Stainless steel 304 is slightly denser at about 8000 kg/m³, aluminium is far lighter at 2700 kg/m³, and cast iron sits around 7200 kg/m³. You can switch between all of these using the Material dropdown at the top of this page.</p>
+
+    <p><strong>Can I use this calculator for stainless steel or aluminium?</strong><br>
+    Yes. Select the relevant material from the dropdown and the density is applied automatically to every shape.</p>
+
+    <p><strong>Does it work in inches and pounds?</strong><br>
+    Yes. Switch Units to Imperial and enter all dimensions in inches — the results are then shown in pounds.</p>
+
+    <p><strong>Is my data sent anywhere?</strong><br>
+    No. All calculations run entirely inside your browser. Saved calculations are stored only in your own device's local storage and can be deleted at any time with the Clear All button.</p>
+  </div>
+
+  <!-- ===== AD 3 : BOTTOM BANNER ===== -->
+  <div class="ad-box">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="3333333333"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
   <footer>
-    <p>📊 Theoretical density-based results</p>
-    <p>⚠️ Actual weight may vary ±2–3%</p>
+    <p>📊 Results are based on theoretical density values</p>
+    <p>⚠️ Actual weight may vary ±2–3% due to rolling tolerances</p>
+    <nav>
+      <a href="index.html">Home</a>|
+      <a href="about.html">About</a>|
+      <a href="privacy.html">Privacy Policy</a>|
+      <a href="disclaimer.html">Disclaimer</a>|
+      <a href="contact.html">Contact</a>
+    </nav>
+    <p style="margin-top:12px;color:#999">© <span id="yr"></span> Steel Weight Calculator · Built by Vijay Meena</p>
   </footer>
 </div>
 
-<script>
-/* ============ STATE ============ */
-const lastResults = {};
+<!-- Cookie consent -->
+<div id="cookie-bar" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#2c3e50;color:#fff;padding:14px;z-index:9999;font-size:.88em;box-shadow:0 -2px 12px rgba(0,0,0,.25)">
+  <div style="max-width:900px;margin:0 auto;display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center">
+    <span>🍪 This site uses cookies and third-party advertising (Google AdSense) to stay free.
+      <a href="privacy.html" style="color:#8ab4f8">Learn more</a></span>
+    <button onclick="acceptCookies()" style="padding:9px 22px;background:#667eea;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600">Got it</button>
+  </div>
+</div>
 
+<script>
 /* ============ HELPERS ============ */
+const lastResults = {};
 function density(){ return parseFloat(document.getElementById('material').value); }
 function isImperial(){ return document.getElementById('unit').value === 'imperial'; }
-function dim(id){
-  const v = parseFloat(document.getElementById(id).value);
-  if (isNaN(v)) return 0;
-  return isImperial() ? v * 25.4 : v;   // convert inches -> mm
-}
+function dim(id){ const v = parseFloat(document.getElementById(id).value); if(isNaN(v)) return 0; return isImperial() ? v*25.4 : v; }
 function qty(id){ return Math.max(1, parseInt(document.getElementById(id).value) || 1); }
-function fmt(kg){ return isImperial() ? [kg * 2.20462, 'lbs'] : [kg, 'kg']; }
+function fmt(kg){ return isImperial() ? [kg*2.20462,'lbs'] : [kg,'kg']; }
 
 /* ============ TABS ============ */
 function showTab(id, btn){
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
 }
-
-/* ============ UNIT SWITCH ============ */
 function onUnitChange(){
   const imp = isImperial();
-  document.querySelectorAll('.u').forEach(el => el.textContent = imp ? 'in' : 'mm');
+  document.querySelectorAll('.u').forEach(el=>el.textContent = imp ? 'in' : 'mm');
 }
 
 /* ============ STANDARD SIZE FILLERS ============ */
 function fillAngle(){
-  const v = document.getElementById('angle-std').value;
-  if (!v || v === 'custom') return;
-  const [a,b,t] = v.split(',');
-  document.getElementById('angle-a').value = a;
-  document.getElementById('angle-b').value = b;
-  document.getElementById('angle-t').value = t;
+  const v=document.getElementById('angle-std').value; if(!v||v==='custom') return;
+  const [a,b,t]=v.split(',');
+  angle-a; document.getElementById('angle-a').value=a;
+  document.getElementById('angle-b').value=b;
+  document.getElementById('angle-t').value=t;
 }
 function fillChannel(){
-  const v = document.getElementById('ch-std').value;
-  if (!v || v === 'custom') return;
-  const [h,w,tw,tf] = v.split(',');
-  document.getElementById('ch-h').value = h;
-  document.getElementById('ch-w').value = w;
-  document.getElementById('ch-tw').value = tw;
-  document.getElementById('ch-tf').value = tf;
+  const v=document.getElementById('ch-std').value; if(!v||v==='custom') return;
+  const [h,w,tw,tf]=v.split(',');
+  document.getElementById('ch-h').value=h;
+  document.getElementById('ch-w').value=w;
+  document.getElementById('ch-tw').value=tw;
+  document.getElementById('ch-tf').value=tf;
 }
 function fillBeam(){
-  const v = document.getElementById('bm-std').value;
-  if (!v || v === 'custom') return;
-  const [h,w,tw,tf] = v.split(',');
-  document.getElementById('bm-h').value = h;
-  document.getElementById('bm-w').value = w;
-  document.getElementById('bm-tw').value = tw;
-  document.getElementById('bm-tf').value = tf;
+  const v=document.getElementById('bm-std').value; if(!v||v==='custom') return;
+  const [h,w,tw,tf]=v.split(',');
+  document.getElementById('bm-h').value=h;
+  document.getElementById('bm-w').value=w;
+  document.getElementById('bm-tw').value=tw;
+  document.getElementById('bm-tf').value=tf;
 }
 
 /* ============ CALCULATORS ============ */
 function calcSheet(){
-  const L=dim('sheet-l'), W=dim('sheet-w'), T=dim('sheet-t');
+  const L=dim('sheet-l'),W=dim('sheet-w'),T=dim('sheet-t');
   if(!L||!W||!T) return alert('Please fill all fields');
-  render('sheet','Sheet/Plate', L*W*T, qty('sheet-q'));
+  render('sheet','Sheet/Plate',L*W*T,qty('sheet-q'));
 }
 function calcAngle(){
-  const a=dim('angle-a'), b=dim('angle-b'), t=dim('angle-t'), L=dim('angle-l');
+  const a=dim('angle-a'),b=dim('angle-b'),t=dim('angle-t'),L=dim('angle-l');
   if(!a||!b||!t||!L) return alert('Please fill all fields');
-  render('angle','Angle', (a+b-t)*t*L, qty('angle-q'));
+  render('angle','Angle',(a+b-t)*t*L,qty('angle-q'));
 }
 function calcRound(){
-  const d=dim('round-d'), L=dim('round-l');
+  const d=dim('round-d'),L=dim('round-l');
   if(!d||!L) return alert('Please fill all fields');
-  render('round','Round Bar', Math.PI*Math.pow(d/2,2)*L, qty('round-q'));
+  render('round','Round Bar',Math.PI*Math.pow(d/2,2)*L,qty('round-q'));
 }
 function calcSquare(){
-  const s=dim('sq-s'), L=dim('sq-l');
+  const s=dim('sq-s'),L=dim('sq-l');
   if(!s||!L) return alert('Please fill all fields');
-  render('square','Square Bar', s*s*L, qty('sq-q'));
+  render('square','Square Bar',s*s*L,qty('sq-q'));
 }
 function calcPipe(){
-  const od=dim('pipe-od'), t=dim('pipe-t'), L=dim('pipe-l');
+  const od=dim('pipe-od'),t=dim('pipe-t'),L=dim('pipe-l');
   if(!od||!t||!L) return alert('Please fill all fields');
-  const idia = od - 2*t;
-  if(idia <= 0) return alert('Wall thickness is too large');
-  const area = Math.PI*(Math.pow(od/2,2) - Math.pow(idia/2,2));
-  render('pipe','Round Pipe', area*L, qty('pipe-q'));
+  const idia=od-2*t;
+  if(idia<=0) return alert('Wall thickness is too large for this diameter');
+  render('pipe','Round Pipe',Math.PI*(Math.pow(od/2,2)-Math.pow(idia/2,2))*L,qty('pipe-q'));
 }
 function calcTube(){
-  const w=dim('tube-w'), h=dim('tube-h'), t=dim('tube-t'), L=dim('tube-l');
+  const w=dim('tube-w'),h=dim('tube-h'),t=dim('tube-t'),L=dim('tube-l');
   if(!w||!h||!t||!L) return alert('Please fill all fields');
-  if(w<=2*t || h<=2*t) return alert('Wall thickness is too large');
-  const area = w*h - (w-2*t)*(h-2*t);
-  render('tube','Square Tube', area*L, qty('tube-q'));
+  if(w<=2*t||h<=2*t) return alert('Wall thickness is too large for these dimensions');
+  render('tube','Square Tube',(w*h-(w-2*t)*(h-2*t))*L,qty('tube-q'));
 }
 function calcChannel(){
-  const h=dim('ch-h'), w=dim('ch-w'), tw=dim('ch-tw'), tf=dim('ch-tf'), L=dim('ch-l');
+  const h=dim('ch-h'),w=dim('ch-w'),tw=dim('ch-tw'),tf=dim('ch-tf'),L=dim('ch-l');
   if(!h||!w||!tw||!tf||!L) return alert('Please fill all fields');
-  const area = (h-2*tf)*tw + 2*w*tf;
-  render('channel','Channel', area*L, qty('ch-q'));
+  if(h<=2*tf) return alert('Flange thickness is too large for this height');
+  render('channel','Channel',((h-2*tf)*tw+2*w*tf)*L,qty('ch-q'));
 }
 function calcBeam(){
-  const h=dim('bm-h'), w=dim('bm-w'), tw=dim('bm-tw'), tf=dim('bm-tf'), L=dim('bm-l');
+  const h=dim('bm-h'),w=dim('bm-w'),tw=dim('bm-tw'),tf=dim('bm-tf'),L=dim('bm-l');
   if(!h||!w||!tw||!tf||!L) return alert('Please fill all fields');
-  const area = (h-2*tf)*tw + 2*w*tf;
-  render('beam','I-Beam', area*L, qty('bm-q'));
+  if(h<=2*tf) return alert('Flange thickness is too large for this height');
+  render('beam','I-Beam',((h-2*tf)*tw+2*w*tf)*L,qty('bm-q'));
 }
 
-/* ============ RENDER RESULT ============ */
+/* ============ RENDER ============ */
 function render(key, shape, volumeMM3, quantity){
-  // Weight in kg = volume(mm³) × density(kg/m³) ÷ 1e9
   const kgPerPiece = volumeMM3 * density() / 1e9;
   const [wpp, unit] = fmt(kgPerPiece);
-  const [total]   = fmt(kgPerPiece * quantity);
+  const [total] = fmt(kgPerPiece * quantity);
   const matName = document.getElementById('material').selectedOptions[0].text;
 
   let html = `<p><strong>Material:</strong> ${matName}</p>
               <p><strong>Weight per piece:</strong> ${wpp.toFixed(3)} ${unit}</p>`;
-  if (quantity > 1){
+  if(quantity > 1){
     html += `<p><strong>Quantity:</strong> ${quantity} pcs</p>
              <p><strong>Total weight:</strong> ${total.toFixed(3)} ${unit}</p>`;
   }
-  if (!isImperial() && kgPerPiece * quantity >= 1000){
+  if(!isImperial() && kgPerPiece*quantity >= 1000){
     html += `<p><strong>Total:</strong> ${(kgPerPiece*quantity/1000).toFixed(3)} Metric Tons</p>`;
   }
-
-  const el = document.getElementById(key + '-r');
+  const el = document.getElementById(key+'-r');
   el.innerHTML = html;
   el.classList.add('show');
 
-  lastResults[key] = {
-    shape, material: matName,
-    wpp: wpp.toFixed(3), total: total.toFixed(3),
-    qty: quantity, unit,
-    date: new Date().toLocaleString()
-  };
+  lastResults[key] = { shape, material:matName, wpp:wpp.toFixed(3),
+    total:total.toFixed(3), qty:quantity, unit, date:new Date().toLocaleString() };
 }
 
 /* ============ SAVE / LOAD ============ */
 function saveCalc(key){
   if(!lastResults[key]) return alert('Please calculate first!');
-  let saved = JSON.parse(localStorage.getItem('steelSaved') || '[]');
-  saved.unshift({ id: Date.now(), ...lastResults[key] });
-  saved = saved.slice(0, 20);
+  let saved = JSON.parse(localStorage.getItem('steelSaved')||'[]');
+  saved.unshift({ id:Date.now(), ...lastResults[key] });
+  saved = saved.slice(0,20);
   localStorage.setItem('steelSaved', JSON.stringify(saved));
   loadSaved();
   alert('✅ Calculation saved!');
 }
 function loadSaved(){
-  const saved = JSON.parse(localStorage.getItem('steelSaved') || '[]');
+  const saved = JSON.parse(localStorage.getItem('steelSaved')||'[]');
   const el = document.getElementById('saved-list');
   if(!saved.length){
     el.innerHTML = '<p style="color:#999;text-align:center;padding:8px">No saved calculations yet</p>';
     return;
   }
-  el.innerHTML = saved.map(s => `
+  el.innerHTML = saved.map(s=>`
     <div class="saved-item">
       <div>
         <h4>${s.shape} — ${s.material}</h4>
@@ -437,48 +607,53 @@ function loadSaved(){
     </div>`).join('');
 }
 function delSaved(id){
-  const saved = JSON.parse(localStorage.getItem('steelSaved') || '[]').filter(s => s.id !== id);
+  const saved = JSON.parse(localStorage.getItem('steelSaved')||'[]').filter(s=>s.id!==id);
   localStorage.setItem('steelSaved', JSON.stringify(saved));
   loadSaved();
 }
 function clearSaved(){
-  if (confirm('Clear all saved calculations?')){
+  if(confirm('Clear all saved calculations?')){
     localStorage.removeItem('steelSaved');
     loadSaved();
   }
 }
 
-/* ============ PDF EXPORT ============ */
+/* ============ PDF ============ */
 function exportPDF(key){
   const r = lastResults[key];
   if(!r) return alert('Please calculate first!');
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-
-  doc.setFontSize(20);
-  doc.text('Steel Weight Calculator', 20, 22);
+  doc.setFontSize(20); doc.text('Steel Weight Calculator', 20, 22);
   doc.setFontSize(12);
   doc.text(`Section: ${r.shape}`, 20, 42);
   doc.text(`Material: ${r.material}`, 20, 52);
   doc.text(`Date: ${r.date}`, 20, 62);
-
-  doc.setFontSize(14);
-  doc.text('Results', 20, 82);
+  doc.setFontSize(14); doc.text('Results', 20, 82);
   doc.setFontSize(12);
   doc.text(`Weight per piece: ${r.wpp} ${r.unit}`, 20, 94);
   doc.text(`Quantity: ${r.qty} pcs`, 20, 104);
   doc.text(`Total weight: ${r.total} ${r.unit}`, 20, 114);
-
-  doc.setFontSize(10);
-  doc.setTextColor(120);
-  doc.text('Note: Approximate values only. Actual weight may vary ±2-3%.', 20, 140);
-  doc.text('Generated by Steel Weight Calculator Pro', 20, 150);
-
+  doc.setFontSize(10); doc.setTextColor(120);
+  doc.text('Note: Approximate values. Actual weight may vary ±2-3%.', 20, 140);
+  doc.text('vijay-mena07.github.io/Steel-Weight-Calculator', 20, 150);
   doc.save(`${r.shape.replace(/[^a-z0-9]/gi,'_')}_${Date.now()}.pdf`);
 }
 
+/* ============ COOKIE BAR ============ */
+function acceptCookies(){
+  localStorage.setItem('cookieOK','1');
+  document.getElementById('cookie-bar').style.display='none';
+}
+
 /* ============ INIT ============ */
-document.addEventListener('DOMContentLoaded', loadSaved);
+document.addEventListener('DOMContentLoaded', function(){
+  loadSaved();
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  if(!localStorage.getItem('cookieOK')){
+    document.getElementById('cookie-bar').style.display='block';
+  }
+});
 </script>
 </body>
 </html>
