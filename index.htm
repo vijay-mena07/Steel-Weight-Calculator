@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Steel & Metal Weight & Layout Calculator | Sheet, Pipe, Cone & Pyramid</title>
+    <meta name="description" content="Free online metal weight and fabrication layout calculator for MS sheets, plates, angles, bars, pipes, tubes, channels, beams, flat bars, bolts, cones, transitions, and truncated pyramids. Metric & Imperial units.">
+    <!-- Google AdSense Placeholder (Replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID when approved) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #0f172a;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+            --border-color: #cbd5e1;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; padding: 15px; }
+        .container { max-width: 1100px; margin: 0 auto; background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; }
+        header h1 { color: var(--secondary); font-size: 26px; margin-bottom: 5px; }
+        header p { color: #64748b; font-size: 14px; }
+        
+        /* Unit Switcher & Author Bar */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; background: #f1f5f9; padding: 10px 15px; border-radius: 8px; }
+        .author-tag { font-size: 13px; color: #475569; font-weight: 600; }
+        .unit-toggle { display: flex; gap: 10px; align-items: center; }
+        .unit-toggle select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-weight: 600; cursor: pointer; }
+
+        /* Ad Banner Style */
+        .ad-container { margin: 20px 0; text-align: center; background: #f8fafc; border: 1px dashed var(--border-color); padding: 15px; border-radius: 8px; }
+        .ad-label { font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; }
+
+        /* Navigation Tabs */
+        .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        .tab-btn { padding: 8px 14px; background: #e2e8f0; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: #475569; transition: all 0.2s; }
+        .tab-btn:hover { background: #cbd5e1; }
+        .tab-btn.active { background: var(--primary); color: white; }
+
+        /* Calculator Sections */
+        .calculator-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .calculator-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h2 { font-size: 18px; color: var(--secondary); margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
+        input, select { padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+        .calc-btn { background: var(--primary); color: white; border: none; padding: 12px 20px; font-size: 15px; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.2s; }
+        .calc-btn:hover { background: var(--primary-dark); }
+
+        /* Result Box */
+        .result-box { margin-top: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 15px; border-radius: 8px; display: none; }
+        .result-box h3 { color: #166534; font-size: 16px; margin-bottom: 8px; }
+        .result-box p { font-size: 15px; color: #14532d; margin-bottom: 4px; }
+
+        /* Mode Toggle */
+        .mode-toggle-bar { margin-bottom: 15px; background: #eff6ff; padding: 10px; border-radius: 6px; border: 1px solid #bfdbfe; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Reference & History Table */
+        .section-box { margin-top: 30px; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th, td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
+        th { background: #f8fafc; color: #475569; font-weight: 600; }
+        
+        .history-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 4px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-danger { background: #fee2e2; color: #991b1b; }
+        .btn-success { background: #d1fae5; color: #065f46; }
+
+        /* Footer & Cookie Banner */
+        footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b; }
+        footer a { color: var(--primary); text-decoration: none; margin: 0 5px; }
+        
+        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: #0f172a; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; font-size: 13px; }
+        .cookie-banner button { background: var(--primary); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>⚡ Ultimate Metal Weight & Layout Calculator</h1>
+        <p>Calculate weight & fabrication development for Sheets, Plates, Pipes, Tubes, Cones, Transitions & Truncated Pyramids</p>
+    </header>
+
+    <div class="top-bar">
+        <div class="author-tag">Created by Vijay Meena</div>
+        <div class="unit-toggle">
+            <label for="unitSystem">Unit System:</label>
+            <select id="unitSystem" onchange="switchUnitSystem()">
+                <option value="metric">Metric (mm, meters, kg)</option>
+                <option value="imperial">Imperial (inches, feet, lbs)</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Ad Unit 1: Top Ad Placeholder -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1111111111"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'area-weight')">Area Weight (kg/m²)</button>
+        <button class="tab-btn" onclick="openTab(event, 'sheet')">Sheet / Plate</button>
+        <button class="tab-btn" onclick="openTab(event, 'flat')">MS Flat Bar</button>
+        <button class="tab-btn" onclick="openTab(event, 'angle')">Angle</button>
+        <button class="tab-btn" onclick="openTab(event, 'round-bar')">Round Bar</button>
+        <button class="tab-btn" onclick="openTab(event, 'square-bar')">Square Bar</button>
+        <button class="tab-btn" onclick="openTab(event, 'pipe')">Round Pipe</button>
+        <button class="tab-btn" onclick="openTab(event, 'tube')">Square Tube</button>
+        <button class="tab-btn" onclick="openTab(event, 'channel')">Channel (ISMC)</button>
+        <button class="tab-btn" onclick="openTab(event, 'beam')">I-Beam (ISMB)</button>
+        <button class="tab-btn" onclick="openTab(event, 'bolts')">Bolts & Nuts</button>
+        <button class="tab-btn" onclick="openTab(event, 'cone')">Cone Development</button>
+        <button class="tab-btn" onclick="openTab(event, 'transition')">Sq-to-Round Transition</button>
+        <button class="tab-btn" onclick="openTab(event, 'pyramid')">Truncated Pyramid (Hopper)</button>
+    </div>
+
+    <!-- TAB 1: AREA WEIGHT CALCULATOR -->
+    <div id="area-weight" class="calculator-section active">
+        <h2>Area Weight Calculator & Sheet Reference</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="awMaterial" onchange="calculateAreaWeight()">
+                    <option value="7850">Mild Steel (MS) - 7850 kg/m³</option>
+                    <option value="8000">Stainless Steel 304 - 8000 kg/m³</option>
+                    <option value="2700">Aluminum - 2700 kg/m³</option>
+                    <option value="8900">Copper - 8900 kg/m³</option>
+                    <option value="8500">Brass - 8500 kg/m³</option>
+                    <option value="7200">Cast Iron - 7200 kg/m³</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Plate / Sheet Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="awThickness" value="6" step="0.1" oninput="calculateAreaWeight()">
+            </div>
+            <div class="form-group">
+                <label>Enter Total Area (<span class="unit-label-area">m²</span>):</label>
+                <input type="number" id="awArea" placeholder="e.g., 50" value="1" step="0.1" oninput="calculateAreaWeight()">
+            </div>
+        </div>
+
+        <div style="margin-bottom: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 13px; font-weight: 600; align-self: center;">Quick Area Presets:</span>
+            <button class="btn-sm" style="background:#e2e8f0;" onclick="setArea(10)">10 m²</button>
+            <button class="btn-sm" style="background:#e2e8f0;" onclick="setArea(50)">50 m²</button>
+            <button class="btn-sm" style="background:#e2e8f0;" onclick="setArea(100)">100 m²</button>
+            <button class="btn-sm" style="background:#e2e8f0;" onclick="setArea(2.976)">1 Sheet (8'×4')</button>
+        </div>
+
+        <button class="calc-btn" onclick="calculateAreaWeight()">Calculate Area Weight</button>
+        <div id="awResult" class="result-box" style="display:block;">
+            <h3>Area Weight Analysis</h3>
+            <p id="awResultText"><strong>Weight per Unit Area:</strong> 47.10 kg/m² (9.65 lbs/ft²)</p>
+            <p id="awTotalText"><strong>Total Weight for 1.0 m²:</strong> 47.10 kg (103.83 lbs)</p>
+        </div>
+
+        <div class="section-box">
+            <h3>Standard MS Plate Area Weight Reference</h3>
+            <table>
+                <thead>
+                    <tr><th>Thickness (mm)</th><th>Weight (kg/m²)</th><th>Weight (lbs/ft²)</th><th>8'×4' Sheet Weight (kg)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0.5 mm</td><td>3.93 kg</td><td>0.81 lbs</td><td>11.7 kg</td></tr>
+                    <tr><td>1.0 mm</td><td>7.85 kg</td><td>1.61 lbs</td><td>23.4 kg</td></tr>
+                    <tr><td>2.0 mm</td><td>15.70 kg</td><td>3.22 lbs</td><td>46.7 kg</td></tr>
+                    <tr><td>3.0 mm</td><td>23.55 kg</td><td>4.82 lbs</td><td>70.1 kg</td></tr>
+                    <tr><td>4.0 mm</td><td>31.40 kg</td><td>6.43 lbs</td><td>93.5 kg</td></tr>
+                    <tr><td>5.0 mm</td><td>39.25 kg</td><td>8.04 lbs</td><td>116.8 kg</td></tr>
+                    <tr><td>6.0 mm</td><td>47.10 kg</td><td>9.65 lbs</td><td>140.2 kg</td></tr>
+                    <tr><td>8.0 mm</td><td>62.80 kg</td><td>12.86 lbs</td><td>186.9 kg</td></tr>
+                    <tr><td>10.0 mm</td><td>78.50 kg</td><td>16.08 lbs</td><td>233.6 kg</td></tr>
+                    <tr><td>12.0 mm</td><td>94.20 kg</td><td>19.29 lbs</td><td>280.3 kg</td></tr>
+                    <tr><td>16.0 mm</td><td>125.60 kg</td><td>25.72 lbs</td><td>373.8 kg</td></tr>
+                    <tr><td>20.0 mm</td><td>157.00 kg</td><td>32.15 lbs</td><td>467.2 kg</td></tr>
+                    <tr><td>25.0 mm</td><td>196.25 kg</td><td>40.19 lbs</td><td>584.0 kg</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB 2: SHEET / PLATE CALCULATOR -->
+    <div id="sheet" class="calculator-section">
+        <h2>Sheet / Plate Weight Calculator</h2>
+        
+        <div class="mode-toggle-bar">
+            <span id="sheetModeLabel" style="font-weight: 600; font-size: 13px;">Current Mode: Enter Length × Width</span>
+            <button class="btn-sm btn-success" onclick="toggleSheetMode()" id="sheetModeBtn">Switch to Direct Area Entry 📐</button>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="sheetMaterial">
+                    <option value="7850">Mild Steel (MS) - 7850 kg/m³</option>
+                    <option value="8000">Stainless Steel 304 - 8000 kg/m³</option>
+                    <option value="2700">Aluminum - 2700 kg/m³</option>
+                    <option value="8900">Copper - 8900 kg/m³</option>
+                    <option value="8500">Brass - 8500 kg/m³</option>
+                    <option value="7200">Cast Iron - 7200 kg/m³</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="sheetThickness" placeholder="e.g., 6" step="0.1">
+            </div>
+            
+            <div class="form-group sheet-dim-input">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="sheetLength" placeholder="e.g., 2.5" step="0.1">
+            </div>
+            <div class="form-group sheet-dim-input">
+                <label>Width (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="sheetWidth" placeholder="e.g., 1.25" step="0.1">
+            </div>
+
+            <div class="form-group sheet-area-input" style="display:none;">
+                <label>Total Area (<span class="unit-label-area">m²</span>):</label>
+                <input type="number" id="sheetArea" placeholder="e.g., 50" step="0.1">
+            </div>
+
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="sheetQty" value="1" min="1">
+            </div>
+        </div>
+
+        <div style="margin-bottom: 15px;" class="sheet-dim-input">
+            <span style="font-size: 13px; font-weight: 600;">Standard Sheet Presets:</span>
+            <button class="btn-sm" style="background:#e2e8f0;" onclick="setSheetSize(2.44, 1.22)">8' × 4' (2.44×1.22m)</button>
+            <button class="btn-sm" style="background:#e2e8f0;" onclick="setSheetSize(1.83, 0.91)">6' × 3' (1.83×0.91m)</button>
+            <button class="btn-sm" style="background:#e2e8f0;" onclick="setSheetSize(3.0, 1.5)">3.0 × 1.5m</button>
+        </div>
+
+        <button class="calc-btn" onclick="calculateSheet()">Calculate Sheet Weight</button>
+        <div id="sheetResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 3: MS FLAT BAR CALCULATOR -->
+    <div id="flat" class="calculator-section">
+        <h2>MS Flat Bar Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Quick Select Standard Size:</label>
+                <select id="flatStandard" onchange="loadFlatStandard()">
+                    <option value="">-- Custom Size --</option>
+                    <option value="12,3">12 × 3 mm</option>
+                    <option value="20,5">20 × 5 mm</option>
+                    <option value="25,6">25 × 6 mm</option>
+                    <option value="40,6">40 × 6 mm</option>
+                    <option value="50,6">50 × 6 mm</option>
+                    <option value="50,10">50 × 10 mm</option>
+                    <option value="75,8">75 × 8 mm</option>
+                    <option value="100,10">100 × 10 mm</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="flatMaterial">
+                    <option value="7850">Mild Steel (MS) - 7850 kg/m³</option>
+                    <option value="8000">Stainless Steel 304 - 8000 kg/m³</option>
+                    <option value="2700">Aluminum - 2700 kg/m³</option>
+                    <option value="8900">Copper - 8900 kg/m³</option>
+                    <option value="8500">Brass - 8500 kg/m³</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Width (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="flatWidth" placeholder="e.g., 50" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="flatThickness" placeholder="e.g., 6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="flatLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="flatQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateFlat()">Calculate Flat Weight</button>
+        <div id="flatResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 4: ANGLE CALCULATOR -->
+    <div id="angle" class="calculator-section">
+        <h2>MS Equal & Unequal Angle Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Select Standard Angle Size:</label>
+                <select id="angleStandard" onchange="loadAngleStandard()">
+                    <option value="">-- Custom Size --</option>
+                    <option value="25,25,3">25 × 25 × 3 mm (1.10 kg/m)</option>
+                    <option value="40,40,6">40 × 40 × 6 mm (3.52 kg/m)</option>
+                    <option value="50,50,6">50 × 50 × 6 mm (4.46 kg/m)</option>
+                    <option value="65,65,6">65 × 65 × 6 mm (5.91 kg/m)</option>
+                    <option value="75,75,6">75 × 75 × 6 mm (6.85 kg/m)</option>
+                    <option value="100,100,10">100 × 100 × 10 mm (14.90 kg/m)</option>
+                    <option value="150,150,12">150 × 150 × 12 mm (27.02 kg/m)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Leg A (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="angleA" placeholder="e.g., 50" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Leg B (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="angleB" placeholder="e.g., 50" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="angleT" placeholder="e.g., 6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="angleLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="angleQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateAngle()">Calculate Angle Weight</button>
+        <div id="angleResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 5: ROUND BAR CALCULATOR -->
+    <div id="round-bar" class="calculator-section">
+        <h2>Round Bar / Rod Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Diameter (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="roundDiameter" placeholder="e.g., 16" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="roundMaterial">
+                    <option value="7850">Mild Steel / Carbon Steel (7850 kg/m³)</option>
+                    <option value="8000">Stainless Steel 304 (8000 kg/m³)</option>
+                    <option value="2700">Aluminum (2700 kg/m³)</option>
+                    <option value="8900">Copper (8900 kg/m³)</option>
+                    <option value="8500">Brass (8500 kg/m³)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="roundLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="roundQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateRoundBar()">Calculate Round Bar Weight</button>
+        <div id="roundResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 6: SQUARE BAR CALCULATOR -->
+    <div id="square-bar" class="calculator-section">
+        <h2>Square Bar Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Side Size (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="squareBarSize" placeholder="e.g., 20" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="squareBarMaterial">
+                    <option value="7850">Mild Steel (7850 kg/m³)</option>
+                    <option value="8000">Stainless Steel 304 (8000 kg/m³)</option>
+                    <option value="2700">Aluminum (2700 kg/m³)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="squareBarLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="squareBarQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateSquareBar()">Calculate Square Bar Weight</button>
+        <div id="squareBarResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 7: ROUND PIPE CALCULATOR -->
+    <div id="pipe" class="calculator-section">
+        <h2>Round Pipe Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Outer Diameter (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pipeOD" placeholder="e.g., 48.3" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Wall Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pipeWT" placeholder="e.g., 3.2" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="pipeMaterial">
+                    <option value="7850">Mild Steel (7850 kg/m³)</option>
+                    <option value="8000">Stainless Steel 304 (8000 kg/m³)</option>
+                    <option value="2700">Aluminum (2700 kg/m³)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="pipeLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="pipeQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculatePipe()">Calculate Pipe Weight</button>
+        <div id="pipeResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 8: SQUARE TUBE CALCULATOR -->
+    <div id="tube" class="calculator-section">
+        <h2>Square & Rectangular Tube Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Width A (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="tubeA" placeholder="e.g., 50" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Height B (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="tubeB" placeholder="e.g., 50" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Wall Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="tubeT" placeholder="e.g., 3" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="tubeMaterial">
+                    <option value="7850">Mild Steel (7850 kg/m³)</option>
+                    <option value="8000">Stainless Steel 304 (8000 kg/m³)</option>
+                    <option value="2700">Aluminum (2700 kg/m³)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="tubeLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="tubeQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateTube()">Calculate Tube Weight</button>
+        <div id="tubeResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 9: CHANNEL (ISMC) CALCULATOR -->
+    <div id="channel" class="calculator-section">
+        <h2>MS Channel (ISMC) Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Select ISMC Designation:</label>
+                <select id="channelStandard" onchange="loadChannelStandard()">
+                    <option value="">-- Custom Size --</option>
+                    <option value="75,40,4.8,7.1,6.8">ISMC 75 (7.1 kg/m)</option>
+                    <option value="100,50,4.7,7.4,9.2">ISMC 100 (9.2 kg/m)</option>
+                    <option value="125,65,5.0,8.1,13.1">ISMC 125 (13.1 kg/m)</option>
+                    <option value="150,75,5.7,9.0,16.8">ISMC 150 (16.8 kg/m)</option>
+                    <option value="200,75,6.0,11.4,22.3">ISMC 200 (22.3 kg/m)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Height H (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="channelH" placeholder="e.g., 100" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Flange Width B (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="channelB" placeholder="e.g., 50" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Web Thickness Tw (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="channelTw" placeholder="e.g., 4.7" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Flange Thickness Tf (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="channelTf" placeholder="e.g., 7.4" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="channelLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="channelQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateChannel()">Calculate Channel Weight</button>
+        <div id="channelResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 10: I-BEAM (ISMB) CALCULATOR -->
+    <div id="beam" class="calculator-section">
+        <h2>I-Beam (ISMB) Weight Calculator</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Select ISMB Designation:</label>
+                <select id="beamStandard" onchange="loadBeamStandard()">
+                    <option value="">-- Custom Size --</option>
+                    <option value="100,75,4.5,7.2,11.5">ISMB 100 (11.5 kg/m)</option>
+                    <option value="150,100,5.4,8.1,22.7">ISMB 150 (22.7 kg/m)</option>
+                    <option value="200,100,5.7,10.0,25.4">ISMB 200 (25.4 kg/m)</option>
+                    <option value="250,125,6.9,12.5,37.3">ISMB 250 (37.3 kg/m)</option>
+                    <option value="300,140,7.5,13.1,44.2">ISMB 300 (44.2 kg/m)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Height H (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="beamH" placeholder="e.g., 200" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Flange Width B (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="beamB" placeholder="e.g., 100" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>Web Thickness Tw (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="beamTw" placeholder="e.g., 5.7" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Flange Thickness Tf (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="beamTf" placeholder="e.g., 10" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Length (<span class="unit-label-len">m</span>):</label>
+                <input type="number" id="beamLength" placeholder="e.g., 6" value="6" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="beamQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateBeam()">Calculate I-Beam Weight</button>
+        <div id="beamResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 11: BOLTS, NUTS & WASHERS CALCULATOR -->
+    <div id="bolts" class="calculator-section">
+        <h2>MS Bolts, Nuts & Washers Weight Calculator</h2>
+        <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">Calculates total fastener assembly weight including 1 Hex Bolt, 1 Hex Nut, and 2 Flat Washers.</p>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Bolt Diameter (Thread Size):</label>
+                <select id="boltSize">
+                    <option value="6">M6 (6 mm)</option>
+                    <option value="8">M8 (8 mm)</option>
+                    <option value="10">M10 (10 mm)</option>
+                    <option value="12" selected>M12 (12 mm)</option>
+                    <option value="16">M16 (16 mm)</option>
+                    <option value="20">M20 (20 mm)</option>
+                    <option value="24">M24 (24 mm)</option>
+                    <option value="30">M30 (30 mm)</option>
+                    <option value="36">M36 (36 mm)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Bolt Length (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="boltLength" placeholder="e.g., 50" value="50" step="5">
+            </div>
+            <div class="form-group">
+                <label>Quantity (Sets / Pcs):</label>
+                <input type="number" id="boltQty" value="100" min="1">
+            </div>
+            <div class="form-group">
+                <label>Material / Grade:</label>
+                <select id="boltMaterial">
+                    <option value="7850">Mild Steel / Carbon Steel (Grade 8.8)</option>
+                    <option value="8000">Stainless Steel (SS 304)</option>
+                    <option value="7850">High Tensile Steel (Grade 10.9)</option>
+                </select>
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateBolts()">Calculate Fastener Weight</button>
+        <div id="boltResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 12: CONE DEVELOPMENT CALCULATOR -->
+    <div id="cone" class="calculator-section">
+        <h2>Cone Development & Weight Calculator</h2>
+        <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">Calculates sheet metal weight and exact flat pattern layout marking dimensions (Inner & Outer Radius, Sweep Angle).</p>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Top Diameter (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="coneTopD" placeholder="e.g., 200" value="200" step="1">
+            </div>
+            <div class="form-group">
+                <label>Bottom Diameter (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="coneBotD" placeholder="e.g., 500" value="500" step="1">
+            </div>
+            <div class="form-group">
+                <label>Vertical Height (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="coneHeight" placeholder="e.g., 300" value="300" step="1">
+            </div>
+            <div class="form-group">
+                <label>Sheet Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="coneThickness" placeholder="e.g., 3" value="3" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="coneMaterial">
+                    <option value="7850">Mild Steel (7850 kg/m³)</option>
+                    <option value="8000">Stainless Steel 304 (8000 kg/m³)</option>
+                    <option value="2700">Aluminum (2700 kg/m³)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="coneQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateCone()">Calculate Cone Layout & Weight</button>
+        <div id="coneResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 13: TRANSITION CALCULATOR -->
+    <div id="transition" class="calculator-section">
+        <h2>Square-to-Round Transition Calculator</h2>
+        <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">Calculates weight and surface area for square/rectangular to round ductwork or hopper transitions.</p>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Base Width A (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="transA" placeholder="e.g., 400" value="400" step="1">
+            </div>
+            <div class="form-group">
+                <label>Base Length B (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="transB" placeholder="e.g., 400" value="400" step="1">
+            </div>
+            <div class="form-group">
+                <label>Top Round Diameter D (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="transD" placeholder="e.g., 300" value="300" step="1">
+            </div>
+            <div class="form-group">
+                <label>Vertical Height (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="transHeight" placeholder="e.g., 500" value="500" step="1">
+            </div>
+            <div class="form-group">
+                <label>Sheet Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="transThickness" placeholder="e.g., 3" value="3" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="transMaterial">
+                    <option value="7850">Mild Steel (7850 kg/m³)</option>
+                    <option value="8000">Stainless Steel 304 (8000 kg/m³)</option>
+                    <option value="2700">Aluminum (2700 kg/m³)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="transQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculateTransition()">Calculate Transition Weight</button>
+        <div id="transResult" class="result-box"></div>
+    </div>
+
+    <!-- TAB 14: TRUNCATED PYRAMID (HOPPER) CALCULATOR -->
+    <div id="pyramid" class="calculator-section">
+        <h2>Truncated Pyramid (Hopper / Chute) Calculator</h2>
+        <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">Calculates weight, surface area, and face slant heights for square/rectangular hoppers and pyramid transitions.</p>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Bottom Width A1 (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pyrA1" placeholder="e.g., 600" value="600" step="1">
+            </div>
+            <div class="form-group">
+                <label>Bottom Length B1 (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pyrB1" placeholder="e.g., 600" value="600" step="1">
+            </div>
+            <div class="form-group">
+                <label>Top Width A2 (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pyrA2" placeholder="e.g., 200" value="200" step="1">
+            </div>
+            <div class="form-group">
+                <label>Top Length B2 (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pyrB2" placeholder="e.g., 200" value="200" step="1">
+            </div>
+            <div class="form-group">
+                <label>Vertical Height (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pyrHeight" placeholder="e.g., 500" value="500" step="1">
+            </div>
+            <div class="form-group">
+                <label>Sheet Thickness (<span class="unit-label-dim">mm</span>):</label>
+                <input type="number" id="pyrThickness" placeholder="e.g., 3" value="3" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Material:</label>
+                <select id="pyrMaterial">
+                    <option value="7850">Mild Steel (7850 kg/m³)</option>
+                    <option value="8000">Stainless Steel 304 (8000 kg/m³)</option>
+                    <option value="2700">Aluminum (2700 kg/m³)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quantity (Pcs):</label>
+                <input type="number" id="pyrQty" value="1" min="1">
+            </div>
+        </div>
+        <button class="calc-btn" onclick="calculatePyramid()">Calculate Pyramid Hopper Weight</button>
+        <div id="pyrResult" class="result-box"></div>
+    </div>
+
+    <!-- Ad Unit 2: Middle Ad Placeholder -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="2222222222"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- SAVED CALCULATIONS HISTORY -->
+    <div class="section-box">
+        <h3>Saved Calculations History</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Type</th><th>Description</th><th>Weight (kg)</th><th>Weight (lbs)</th><th>Action</th></tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr><td colspan="5" style="text-align: center; color: #94a3b8;">No saved calculations yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="history-actions">
+            <button class="btn-sm btn-success" onclick="exportPDF()">Export History to PDF 📄</button>
+            <button class="btn-sm btn-danger" onclick="clearHistory()">Clear History</button>
+        </div>
+    </div>
+
+    <!-- Ad Unit 3: Bottom Ad Placeholder -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="3333333333"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Steel Weight Calculator | Author: <strong>Vijay Meena</strong></p>
+        <p style="margin-top: 5px;">
+            <a href="privacy.html">Privacy Policy</a> | 
+            <a href="about.html">About Us</a> | 
+            <a href="contact.html">Contact</a> | 
+            <a href="disclaimer.html">Disclaimer</a>
+        </p>
+    </footer>
+</div>
+
+<!-- Cookie Consent Banner -->
+<div class="cookie-banner" id="cookieBanner">
+    <span>We use cookies to enhance your experience and analyze traffic through Google AdSense.</span>
+    <button onclick="acceptCookies()">Got It</button>
+</div>
+
+<script>
+    // Tab Navigation
+    function openTab(evt, tabName) {
+        const sections = document.getElementsByClassName('calculator-section');
+        for (let s of sections) s.classList.remove('active');
+        const buttons = document.getElementsByClassName('tab-btn');
+        for (let b of buttons) b.classList.remove('active');
+        document.getElementById(tabName).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    // Unit System Switcher
+    let isImperial = false;
+    function switchUnitSystem() {
+        const val = document.getElementById('unitSystem').value;
+        isImperial = (val === 'imperial');
+        const dimLabels = document.getElementsByClassName('unit-label-dim');
+        const lenLabels = document.getElementsByClassName('unit-label-len');
+        const areaLabels = document.getElementsByClassName('unit-label-area');
+
+        for (let el of dimLabels) el.innerText = isImperial ? 'inches' : 'mm';
+        for (let el of lenLabels) el.innerText = isImperial ? 'feet' : 'm';
+        for (let el of areaLabels) el.innerText = isImperial ? 'ft²' : 'm²';
+    }
+
+    // Sheet Mode Toggle
+    let sheetDirectAreaMode = false;
+    function toggleSheetMode() {
+        sheetDirectAreaMode = !sheetDirectAreaMode;
+        const dimInputs = document.getElementsByClassName('sheet-dim-input');
+        const areaInputs = document.getElementsByClassName('sheet-area-input');
+        const btn = document.getElementById('sheetModeBtn');
+        const label = document.getElementById('sheetModeLabel');
+
+        if (sheetDirectAreaMode) {
+            for (let el of dimInputs) el.style.display = 'none';
+            for (let el of areaInputs) el.style.display = 'flex';
+            btn.innerText = 'Switch to Length × Width 📏';
+            label.innerText = 'Current Mode: Enter Area Directly';
+        } else {
+            for (let el of dimInputs) el.style.display = 'flex';
+            for (let el of areaInputs) el.style.display = 'none';
+            btn.innerText = 'Switch to Direct Area Entry 📐';
+            label.innerText = 'Current Mode: Enter Length × Width';
+        }
+    }
+
+    function setSheetSize(l, w) {
+        document.getElementById('sheetLength').value = l;
+        document.getElementById('sheetWidth').value = w;
+    }
+
+    function setArea(a) {
+        document.getElementById('awArea').value = a;
+        calculateAreaWeight();
+    }
+
+    // Calculation Functions
+    function calculateAreaWeight() {
+        const density = parseFloat(document.getElementById('awMaterial').value);
+        let thickness = parseFloat(document.getElementById('awThickness').value) || 0;
+        let area = parseFloat(document.getElementById('awArea').value) || 0;
+
+        if (isImperial) {
+            thickness = thickness * 25.4;
+            area = area / 10.764;
+        }
+
+        const kgPerM2 = (thickness * density) / 1000000;
+        const lbsPerFt2 = kgPerM2 * 0.2048;
+        const totalKg = kgPerM2 * area;
+        const totalLbs = totalKg * 2.20462;
+
+        document.getElementById('awResultText').innerHTML = `<strong>Weight per Unit Area:</strong> ${kgPerM2.toFixed(3)} kg/m² (${lbsPerFt2.toFixed(2)} lbs/ft²)`;
+        document.getElementById('awTotalText').innerHTML = `<strong>Total Weight for ${document.getElementById('awArea').value} ${isImperial ? 'ft²' : 'm²'}:</strong> <span style="color:#166534; font-size:18px;">${totalKg.toFixed(2)} kg</span> (${totalLbs.toFixed(2)} lbs)`;
+    }
+
+    function calculateSheet() {
+        const density = parseFloat(document.getElementById('sheetMaterial').value);
+        let t = parseFloat(document.getElementById('sheetThickness').value) || 0;
+        const qty = parseInt(document.getElementById('sheetQty').value) || 1;
+
+        if (!t) { alert('Please enter thickness.'); return; }
+        if (isImperial) t = t * 25.4;
+
+        let areaM2 = 0;
+        let desc = '';
+
+        if (sheetDirectAreaMode) {
+            let area = parseFloat(document.getElementById('sheetArea').value) || 0;
+            if (!area) { alert('Please enter area.'); return; }
+            areaM2 = isImperial ? area / 10.764 : area;
+            desc = `Area: ${area} ${isImperial ? 'ft²' : 'm²'}, T:${t}mm`;
+        } else {
+            let l = parseFloat(document.getElementById('sheetLength').value) || 0;
+            let w = parseFloat(document.getElementById('sheetWidth').value) || 0;
+            if (!l || !w) { alert('Please enter length and width.'); return; }
+            if (isImperial) { l = l * 0.3048; w = w * 0.3048; }
+            areaM2 = l * w;
+            desc = `L:${l}m × W:${w}m, T:${t}mm`;
+        }
+
+        const weightKg = (areaM2 * t * density / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('sheetResult', 'Sheet / Plate Weight', desc, qty, weightKg, weightLbs);
+        saveCalculation('Sheet / Plate', `${desc}, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function calculateFlat() {
+        let w = parseFloat(document.getElementById('flatWidth').value) || 0;
+        let t = parseFloat(document.getElementById('flatThickness').value) || 0;
+        let l = parseFloat(document.getElementById('flatLength').value) || 0;
+        const qty = parseInt(document.getElementById('flatQty').value) || 1;
+        const density = parseFloat(document.getElementById('flatMaterial').value);
+
+        if (!w || !t || !l) { alert('Please enter width, thickness and length.'); return; }
+        if (isImperial) { w *= 25.4; t *= 25.4; l *= 0.3048; }
+
+        const weightKg = (w * t * l * density / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('flatResult', 'MS Flat Bar', `${w}×${t}mm, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('MS Flat Bar', `${w}×${t}mm, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function loadFlatStandard() {
+        const val = document.getElementById('flatStandard').value;
+        if (!val) return;
+        const parts = val.split(',');
+        document.getElementById('flatWidth').value = parts[0];
+        document.getElementById('flatThickness').value = parts[1];
+    }
+
+    function calculateAngle() {
+        let a = parseFloat(document.getElementById('angleA').value) || 0;
+        let b = parseFloat(document.getElementById('angleB').value) || 0;
+        let t = parseFloat(document.getElementById('angleT').value) || 0;
+        let l = parseFloat(document.getElementById('angleLength').value) || 0;
+        const qty = parseInt(document.getElementById('angleQty').value) || 1;
+
+        if (!a || !b || !t || !l) { alert('Please fill all angle dimensions.'); return; }
+        if (isImperial) { a *= 25.4; b *= 25.4; t *= 25.4; l *= 0.3048; }
+
+        const crossSectionArea = (a + b - t) * t;
+        const weightKg = (crossSectionArea * l * 7850 / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('angleResult', 'MS Angle', `${a}×${b}×${t}mm, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('MS Angle', `${a}×${b}×${t}mm, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function loadAngleStandard() {
+        const val = document.getElementById('angleStandard').value;
+        if (!val) return;
+        const parts = val.split(',');
+        document.getElementById('angleA').value = parts[0];
+        document.getElementById('angleB').value = parts[1];
+        document.getElementById('angleT').value = parts[2];
+    }
+
+    function calculateRoundBar() {
+        let d = parseFloat(document.getElementById('roundDiameter').value) || 0;
+        let l = parseFloat(document.getElementById('roundLength').value) || 0;
+        const qty = parseInt(document.getElementById('roundQty').value) || 1;
+        const density = parseFloat(document.getElementById('roundMaterial').value);
+
+        if (!d || !l) { alert('Please enter diameter and length.'); return; }
+        if (isImperial) { d *= 25.4; l *= 0.3048; }
+
+        const weightKg = (Math.PI * Math.pow(d / 2, 2) * l * density / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('roundResult', 'Round Bar', `Ø${d}mm, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('Round Bar', `Ø${d}mm, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function calculateSquareBar() {
+        let s = parseFloat(document.getElementById('squareBarSize').value) || 0;
+        let l = parseFloat(document.getElementById('squareBarLength').value) || 0;
+        const qty = parseInt(document.getElementById('squareBarQty').value) || 1;
+        const density = parseFloat(document.getElementById('squareBarMaterial').value);
+
+        if (!s || !l) { alert('Please enter size and length.'); return; }
+        if (isImperial) { s *= 25.4; l *= 0.3048; }
+
+        const weightKg = (s * s * l * density / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('squareBarResult', 'Square Bar', `${s}×${s}mm, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('Square Bar', `${s}×${s}mm, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function calculatePipe() {
+        let od = parseFloat(document.getElementById('pipeOD').value) || 0;
+        let wt = parseFloat(document.getElementById('pipeWT').value) || 0;
+        let l = parseFloat(document.getElementById('pipeLength').value) || 0;
+        const qty = parseInt(document.getElementById('pipeQty').value) || 1;
+        const density = parseFloat(document.getElementById('pipeMaterial').value);
+
+        if (!od || !wt || !l) { alert('Please enter pipe dimensions.'); return; }
+        if (isImperial) { od *= 25.4; wt *= 25.4; l *= 0.3048; }
+
+        const id = od - (2 * wt);
+        const area = Math.PI * (Math.pow(od / 2, 2) - Math.pow(id / 2, 2));
+        const weightKg = (area * l * density / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('pipeResult', 'Round Pipe', `OD:${od}mm, WT:${wt}mm, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('Round Pipe', `OD:${od}mm, WT:${wt}mm, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function calculateTube() {
+        let a = parseFloat(document.getElementById('tubeA').value) || 0;
+        let b = parseFloat(document.getElementById('tubeB').value) || 0;
+        let t = parseFloat(document.getElementById('tubeT').value) || 0;
+        let l = parseFloat(document.getElementById('tubeLength').value) || 0;
+        const qty = parseInt(document.getElementById('tubeQty').value) || 1;
+        const density = parseFloat(document.getElementById('tubeMaterial').value);
+
+        if (!a || !b || !t || !l) { alert('Please fill all tube dimensions.'); return; }
+        if (isImperial) { a *= 25.4; b *= 25.4; t *= 25.4; l *= 0.3048; }
+
+        const outerArea = a * b;
+        const innerArea = (a - 2 * t) * (b - 2 * t);
+        const netArea = outerArea - innerArea;
+        const weightKg = (netArea * l * density / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('tubeResult', 'Square Tube', `${a}×${b}×${t}mm, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('Square Tube', `${a}×${b}×${t}mm, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function calculateChannel() {
+        let h = parseFloat(document.getElementById('channelH').value) || 0;
+        let b = parseFloat(document.getElementById('channelB').value) || 0;
+        let tw = parseFloat(document.getElementById('channelTw').value) || 0;
+        let tf = parseFloat(document.getElementById('channelTf').value) || 0;
+        let l = parseFloat(document.getElementById('channelLength').value) || 0;
+        const qty = parseInt(document.getElementById('channelQty').value) || 1;
+
+        if (!h || !b || !tw || !tf || !l) { alert('Please fill all channel dimensions.'); return; }
+        if (isImperial) { h *= 25.4; b *= 25.4; tw *= 25.4; tf *= 25.4; l *= 0.3048; }
+
+        const area = ((h - 2 * tf) * tw + 2 * b * tf);
+        const weightKg = (area * l * 7850 / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('channelResult', 'Channel (ISMC)', `ISMC ${h}×${b}, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('ISMC Channel', `${h}×${b}, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function loadChannelStandard() {
+        const val = document.getElementById('channelStandard').value;
+        if (!val) return;
+        const parts = val.split(',');
+        document.getElementById('channelH').value = parts[0];
+        document.getElementById('channelB').value = parts[1];
+        document.getElementById('channelTw').value = parts[2];
+        document.getElementById('channelTf').value = parts[3];
+    }
+
+    function calculateBeam() {
+        let h = parseFloat(document.getElementById('beamH').value) || 0;
+        let b = parseFloat(document.getElementById('beamB').value) || 0;
+        let tw = parseFloat(document.getElementById('beamTw').value) || 0;
+        let tf = parseFloat(document.getElementById('beamTf').value) || 0;
+        let l = parseFloat(document.getElementById('beamLength').value) || 0;
+        const qty = parseInt(document.getElementById('beamQty').value) || 1;
+
+        if (!h || !b || !tw || !tf || !l) { alert('Please fill all I-Beam dimensions.'); return; }
+        if (isImperial) { h *= 25.4; b *= 25.4; tw *= 25.4; tf *= 25.4; l *= 0.3048; }
+
+        const area = ((h - 2 * tf) * tw + 2 * b * tf);
+        const weightKg = (area * l * 7850 / 1000000) * qty;
+        const weightLbs = weightKg * 2.20462;
+
+        showResult('beamResult', 'I-Beam (ISMB)', `ISMB ${h}×${b}, L:${l}m`, qty, weightKg, weightLbs);
+        saveCalculation('ISMB Beam', `${h}×${b}, L:${l}m, Qty:${qty}`, weightKg, weightLbs);
+    }
+
+    function loadBeamStandard() {
+        const val = document.getElementById('beamStandard').value;
+        if (!val) return;
+        const parts = val.split(',');
+        document.getElementById('beamH').value = parts[0];
+        document.getElementById('beamB').value = parts[1];
+        document.getElementById('beamTw').value = parts[2];
+        document.getElementById('beamTf').value = parts[3];
+    }
+
+    function calculateBolts() {
+        const d = parseFloat(document.getElementById('boltSize').value);
+        let l = parseFloat(document.getElementById('boltLength').value) || 0;
+        const qty = parseInt(document.getElementById('boltQty').value) || 1;
+        const density = parseFloat(document.getElementById('boltMaterial').value);
+
+        if (!l) { alert('Please enter bolt length.'); return; }
+        if (isImperial) l *= 25.4;
+
+        const fixedWeights = { 6: 12, 8: 20, 10: 35, 12: 52, 16: 105, 20: 190, 24: 320, 30: 600, 36: 1000 };
+        const gPerMm = Math.PI * Math.pow(d / 2, 2) * (density / 1000000000) * 1000;
+        const fixedG = fixedWeights[d] || (0.25 * Math.pow(d, 2.2));
+        const weightPerPieceG = fixedG + (l * gPerMm);
+        const totalWeightKg = (weightPerPieceG * qty) / 1000;
+        const totalWeightLbs = totalWeightKg * 2.20462;
+
+        showResult('boltResult', 'Bolts, Nuts & Washers', `M${d}×${l}mm, Qty:${qty}`, qty, totalWeightKg, totalWeightLbs);
+        saveCalculation('Bolts & Nuts', `M${d}×${l}mm, Qty:${qty}`, totalWeightKg, totalWeightLbs);
+    }
+
+    function calculateCone() {
+        let d1 = parseFloat(document.getElementById('coneTopD').value) || 0;
+        let d2 = parseFloat(document.getElementById('coneBotD').value) || 0;
+        let h = parseFloat(document.getElementById('coneHeight').value) || 0;
+        let t = parseFloat(document.getElementById('coneThickness').value) || 0;
+        const qty = parseInt(document.getElementById('coneQty').value) || 1;
+        const density = parseFloat(document.getElementById('coneMaterial').value);
+
+        if (!d2 || !h || !t) { alert('Please enter bottom diameter, height, and thickness.'); return; }
+        if (isImperial) { d1 *= 25.4; d2 *= 25.4; h *= 25.4; t *= 25.4; }
+
+        const r1 = d1 / 2;
+        const r2 = d2 / 2;
+        const slantH = Math.sqrt(Math.pow(h, 2) + Math.pow(Math.abs(r2 - r1), 2));
+
+        let R_outer = 0, R_inner = 0, sweepAngle = 360;
+        if (r2 !== r1) {
+            R_outer = slantH * r2 / Math.abs(r2 - r1);
+            R_inner = R_outer - slantH;
+            sweepAngle = 360 * (r2 / R_outer);
+        }
+
+        const surfaceAreaMm2 = Math.PI * (r1 + r2) * slantH;
+        const totalWeightKg = (surfaceAreaMm2 * t * density / 1000000000) * qty;
+        const totalWeightLbs = totalWeightKg * 2.20462;
+        const surfaceAreaM2 = (surfaceAreaMm2 / 1000000) * qty;
+
+        showResult('coneResult', 'Cone Development', `Top Ø:${d1}mm, Bot Ø:${d2}mm, H:${h}mm`, qty, totalWeightKg, totalWeightLbs);
+        const el = document.getElementById('coneResult');
+        el.innerHTML += `
+            <p style="margin-top: 8px; font-size: 13px; color: #166534; border-top: 1px solid #bbf7d0; padding-top: 6px;">
+                📐 <strong>Fabrication Layout Marking Specs:</strong><br>
+                Slant Height: <strong>${slantH.toFixed(2)} mm</strong> | 
+                Outer Radius ($R_{outer}$): <strong>${R_outer ? R_outer.toFixed(2) + ' mm' : 'N/A'}</strong><br>
+                Inner Radius ($R_{inner}$): <strong>${R_inner ? R_inner.toFixed(2) + ' mm' : 'N/A'}</strong> | 
+                Sweep Angle ($\theta$): <strong>${sweepAngle.toFixed(2)}°</strong><br>
+                Surface Area: <strong>${surfaceAreaM2.toFixed(3)} m²</strong>
+            </p>
+        `;
+        saveCalculation('Cone Development', `Top Ø:${d1}, Bot Ø:${d2}, H:${h}mm, Qty:${qty}`, totalWeightKg, totalWeightLbs);
+    }
+
+    function calculateTransition() {
+        let a = parseFloat(document.getElementById('transA').value) || 0;
+        let b = parseFloat(document.getElementById('transB').value) || 0;
+        let d = parseFloat(document.getElementById('transD').value) || 0;
+        let h = parseFloat(document.getElementById('transHeight').value) || 0;
+        let t = parseFloat(document.getElementById('transThickness').value) || 0;
+        const qty = parseInt(document.getElementById('transQty').value) || 1;
+        const density = parseFloat(document.getElementById('transMaterial').value);
+
+        if (!a || !b || !d || !h || !t) { alert('Please fill all transition dimensions.'); return; }
+        if (isImperial) { a *= 25.4; b *= 25.4; d *= 25.4; h *= 25.4; t *= 25.4; }
+
+        const p1 = 2 * (a + b);
+        const p2 = Math.PI * d;
+        const avgPerimeter = (p1 + p2) / 2;
+
+        const baseDiag = Math.sqrt(a * a + b * b);
+        const slantH = Math.sqrt(Math.pow(h, 2) + Math.pow((baseDiag / 2) - (d / 2), 2));
+        
+        const surfaceAreaMm2 = avgPerimeter * slantH;
+        const totalWeightKg = (surfaceAreaMm2 * t * density / 1000000000) * qty;
+        const totalWeightLbs = totalWeightKg * 2.20462;
+        const surfaceAreaM2 = (surfaceAreaMm2 / 1000000) * qty;
+
+        showResult('transResult', 'Sq-to-Round Transition', `Base:${a}×${b}mm, Top Ø:${d}mm, H:${h}mm`, qty, totalWeightKg, totalWeightLbs);
+        const el = document.getElementById('transResult');
+        el.innerHTML += `
+            <p style="margin-top: 8px; font-size: 13px; color: #166534; border-top: 1px solid #bbf7d0; padding-top: 6px;">
+                📐 <strong>Transition Details:</strong><br>
+                Approx. Slant Height: <strong>${slantH.toFixed(2)} mm</strong> | 
+                Surface Area: <strong>${surfaceAreaM2.toFixed(3)} m²</strong>
+            </p>
+        `;
+        saveCalculation('Sq-Round Transition', `${a}×${b} to Ø${d}, H:${h}mm, Qty:${qty}`, totalWeightKg, totalWeightLbs);
+    }
+
+    function calculatePyramid() {
+        let a1 = parseFloat(document.getElementById('pyrA1').value) || 0;
+        let b1 = parseFloat(document.getElementById('pyrB1').value) || 0;
+        let a2 = parseFloat(document.getElementById('pyrA2').value) || 0;
+        let b2 = parseFloat(document.getElementById('pyrB2').value) || 0;
+        let h = parseFloat(document.getElementById('pyrHeight').value) || 0;
+        let t = parseFloat(document.getElementById('pyrThickness').value) || 0;
+        const qty = parseInt(document.getElementById('pyrQty').value) || 1;
+        const density = parseFloat(document.getElementById('pyrMaterial').value);
+
+        if (!a1 || !b1 || !a2 || !b2 || !h || !t) { alert('Please fill all pyramid dimensions.'); return; }
+        if (isImperial) { a1 *= 25.4; b1 *= 25.4; a2 *= 25.4; b2 *= 25.4; h *= 25.4; t *= 25.4; }
+
+        // 4 Trapezoidal Faces
+        // Face 1 (Width sides, length b1 and b2): slant height s1 = sqrt(h^2 + ((a1 - a2)/2)^2)
+        const s1 = Math.sqrt(Math.pow(h, 2) + Math.pow(Math.abs(b1 - b2) / 2, 2));
+        // Face 2 (Length sides, width a1 and a2): slant height s2 = sqrt(h^2 + ((b1 - b2)/2)^2)
+        const s2 = Math.sqrt(Math.pow(h, 2) + Math.pow(Math.abs(a1 - a2) / 2, 2));
+
+        const areaFace1 = 2 * ((a1 + a2) / 2) * s1;
+        const areaFace2 = 2 * ((b1 + b2) / 2) * s2;
+        const surfaceAreaMm2 = areaFace1 + areaFace2;
+
+        const totalWeightKg = (surfaceAreaMm2 * t * density / 1000000000) * qty;
+        const totalWeightLbs = totalWeightKg * 2.20462;
+        const surfaceAreaM2 = (surfaceAreaMm2 / 1000000) * qty;
+
+        showResult('pyrResult', 'Truncated Pyramid Hopper', `Bot:${a1}×${b1}mm, Top:${a2}×${b2}mm, H:${h}mm`, qty, totalWeightKg, totalWeightLbs);
+        const el = document.getElementById('pyrResult');
+        el.innerHTML += `
+            <p style="margin-top: 8px; font-size: 13px; color: #166534; border-top: 1px solid #bbf7d0; padding-top: 6px;">
+                📐 <strong>Fabrication Face Specs:</strong><br>
+                Face A Slant Height ($S_1$): <strong>${s1.toFixed(2)} mm</strong> | 
+                Face B Slant Height ($S_2$): <strong>${s2.toFixed(2)} mm</strong><br>
+                Total Surface Area: <strong>${surfaceAreaM2.toFixed(3)} m²</strong>
+            </p>
+        `;
+        saveCalculation('Truncated Pyramid', `${a1}×${b1} to ${a2}×${b2}, H:${h}mm, Qty:${qty}`, totalWeightKg, totalWeightLbs);
+    }
+
+    function showResult(elementId, title, desc, qty, kg, lbs) {
+        const el = document.getElementById(elementId);
+        el.innerHTML = `
+            <h3>${title} Result</h3>
+            <p><strong>Details:</strong> ${desc}</p>
+            <p><strong>Total Weight:</strong> <span style="color: #166534; font-size: 18px;">${kg.toFixed(3)} kg</span> (${lbs.toFixed(2)} lbs)</p>
+            <p style="font-size: 13px; color: #15803d; margin-top: 4px;">Weight per piece/set: ${(kg/qty).toFixed(3)} kg</p>
+        `;
+        el.style.display = 'block';
+    }
+
+    // LocalStorage History Management
+    let calculationHistory = JSON.parse(localStorage.getItem('steelCalcHistory')) || [];
+
+    function saveCalculation(type, desc, kg, lbs) {
+        const item = { type, desc, kg: kg.toFixed(3), lbs: lbs.toFixed(2), date: new Date().toLocaleDateString() };
+        calculationHistory.unshift(item);
+        if (calculationHistory.length > 20) calculationHistory.pop();
+        localStorage.setItem('steelCalcHistory', JSON.stringify(calculationHistory));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const tbody = document.getElementById('historyTableBody');
+        if (calculationHistory.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94a3b8;">No saved calculations yet.</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = calculationHistory.map((item, idx) => `
+            <tr>
+                <td>${item.type}</td>
+                <td>${item.desc}</td>
+                <td>${item.kg} kg</td>
+                <td>${item.lbs} lbs</td>
+                <td><button class="btn-sm btn-danger" onclick="deleteHistoryItem(${idx})">Delete</button></td>
+            </tr>
+        `).join('');
+    }
+
+    function deleteHistoryItem(idx) {
+        calculationHistory.splice(idx, 1);
+        localStorage.setItem('steelCalcHistory', JSON.stringify(calculationHistory));
+        renderHistory();
+    }
+
+    function clearHistory() {
+        if (confirm('Are you sure you want to clear history?')) {
+            calculationHistory = [];
+            localStorage.removeItem('steelCalcHistory');
+            renderHistory();
+        }
+    }
+
+    // PDF Export
+    function exportPDF() {
+        if (calculationHistory.length === 0) {
+            alert('No calculations to export!');
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.text("Metal Weight Calculation Report", 14, 20);
+        doc.setFontSize(11);
+        doc.text("Author: Vijay Meena (https://vijay-mena07.github.io/Steel-Weight-Calculator/)", 14, 28);
+        doc.text("Generated on: " + new Date().toLocaleString(), 14, 34);
+
+        let y = 45;
+        doc.setFont(undefined, 'bold');
+        doc.text("Type", 14, y);
+        doc.text("Description", 60, y);
+        doc.text("Weight (kg)", 150, y);
+        doc.setFont(undefined, 'normal');
+        y += 6;
+        doc.line(14, y, 196, y);
+        y += 8;
+
+        calculationHistory.forEach((item) => {
+            if (y > 280) { doc.addPage(); y = 20; }
+            doc.text(item.type, 14, y);
+            doc.text(item.desc.substring(0, 45), 60, y);
+            doc.text(item.kg + " kg", 150, y);
+            y += 8;
+        });
+
+        doc.save("Steel-Weight-Report.pdf");
+    }
+
+    function acceptCookies() {
+        document.getElementById('cookieBanner').style.display = 'none';
+        localStorage.setItem('cookieAccepted', 'true');
+    }
+
+    window.onload = function() {
+        if (localStorage.getItem('cookieAccepted') === 'true') {
+            document.getElementById('cookieBanner').style.display = 'none';
+        }
+        renderHistory();
+        calculateAreaWeight();
+    }
+</script>
+
+</body>
+</html>
