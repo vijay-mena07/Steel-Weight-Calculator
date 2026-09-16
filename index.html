@@ -666,6 +666,487 @@
             </div>
         </section>
 
+        <!-- Angle Calculator -->
+        <section id="angle" class="tab-content">
+            <div class="calculator-card">
+                <h2>📐 MS Angle Weight Calculator</h2>
+                <p class="help-text">Calculate weight of equal or unequal mild steel angle.</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="angleA">Side A</label>
+                        <input type="number" id="angleA" value="50" min="0" step="0.1">
+                        <select id="angleAUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="angleB">Side B</label>
+                        <input type="number" id="angleB" value="50" min="0" step="0.1">
+                        <select id="angleBUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="angleThickness">Thickness</label>
+                        <input type="number" id="angleThickness" value="6" min="0" step="0.1">
+                        <select id="angleThicknessUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="angleLength">Length</label>
+                        <input type="number" id="angleLength" value="6" min="0" step="0.01">
+                        <select id="angleLengthUnit">
+                            <option value="m">metre</option>
+                            <option value="ft">feet</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="angleMaterial">Material</label>
+                        <select id="angleMaterial">
+                            <option value="7850">Mild Steel (MS)</option>
+                            <option value="8000">Stainless Steel 304</option>
+                            <option value="2700">Aluminum</option>
+                            <option value="8900">Copper</option>
+                            <option value="8500">Brass</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="angleQuantity">Quantity</label>
+                        <input type="number" id="angleQuantity" value="1" min="1" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="angleStandard">Standard Sizes</label>
+                        <select id="angleStandard" onchange="loadAngleStandard()">
+                            <option value="">-- Select Standard --</option>
+                            <option value="25,25,3">25×25×3 mm</option>
+                            <option value="25,25,5">25×25×5 mm</option>
+                            <option value="40,40,6">40×40×6 mm</option>
+                            <option value="50,50,6">50×50×6 mm</option>
+                            <option value="65,65,6">65×65×6 mm</option>
+                            <option value="75,75,6">75×75×6 mm</option>
+                            <option value="100,100,10">100×100×10 mm</option>
+                            <option value="150,150,12">150×150×12 mm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateAngle()">Calculate Angle Weight</button>
+
+                <div id="angleResult" class="result-box"></div>
+            </div>
+        </section>
+
+        <!-- Round Bar Calculator -->
+        <section id="roundBar" class="tab-content">
+            <div class="calculator-card">
+                <h2>⚫ Round Bar Weight Calculator</h2>
+                <p class="help-text">Calculate weight of solid round bar/rod.</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="roundBarDiameter">Diameter</label>
+                        <input type="number" id="roundBarDiameter" value="25" min="0" step="0.1">
+                        <select id="roundBarDiameterUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roundBarLength">Length</label>
+                        <input type="number" id="roundBarLength" value="6" min="0" step="0.01">
+                        <select id="roundBarLengthUnit">
+                            <option value="m">metre</option>
+                            <option value="ft">feet</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roundBarMaterial">Material</label>
+                        <select id="roundBarMaterial">
+                            <option value="7850">Mild Steel (MS)</option>
+                            <option value="8000">Stainless Steel 304</option>
+                            <option value="2700">Aluminum</option>
+                            <option value="8900">Copper</option>
+                            <option value="8500">Brass</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roundBarQuantity">Quantity</label>
+                        <input type="number" id="roundBarQuantity" value="1" min="1" step="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateRoundBar()">Calculate Round Bar Weight</button>
+
+                <div id="roundBarResult" class="result-box"></div>
+            </div>
+        </section>
+
+        <!-- Square Bar Calculator -->
+        <section id="squareBar" class="tab-content">
+            <div class="calculator-card">
+                <h2>⬛ Square Bar Weight Calculator</h2>
+                <p class="help-text">Calculate weight of solid square bar.</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="squareBarSize">Side Length</label>
+                        <input type="number" id="squareBarSize" value="25" min="0" step="0.1">
+                        <select id="squareBarSizeUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareBarLength">Length</label>
+                        <input type="number" id="squareBarLength" value="6" min="0" step="0.01">
+                        <select id="squareBarLengthUnit">
+                            <option value="m">metre</option>
+                            <option value="ft">feet</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareBarMaterial">Material</label>
+                        <select id="squareBarMaterial">
+                            <option value="7850">Mild Steel (MS)</option>
+                            <option value="8000">Stainless Steel 304</option>
+                            <option value="2700">Aluminum</option>
+                            <option value="8900">Copper</option>
+                            <option value="8500">Brass</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareBarQuantity">Quantity</label>
+                        <input type="number" id="squareBarQuantity" value="1" min="1" step="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateSquareBar()">Calculate Square Bar Weight</button>
+
+                <div id="squareBarResult" class="result-box"></div>
+            </div>
+        </section>
+
+        <!-- Round Pipe Calculator -->
+        <section id="roundPipe" class="tab-content">
+            <div class="calculator-card">
+                <h2>⭕ Round Pipe Weight Calculator</h2>
+                <p class="help-text">Calculate weight of hollow round pipe/tube.</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="roundPipeOD">Outer Diameter</label>
+                        <input type="number" id="roundPipeOD" value="60" min="0" step="0.1">
+                        <select id="roundPipeODUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roundPipeThickness">Wall Thickness</label>
+                        <input type="number" id="roundPipeThickness" value="3" min="0" step="0.1">
+                        <select id="roundPipeThicknessUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roundPipeLength">Length</label>
+                        <input type="number" id="roundPipeLength" value="6" min="0" step="0.01">
+                        <select id="roundPipeLengthUnit">
+                            <option value="m">metre</option>
+                            <option value="ft">feet</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roundPipeMaterial">Material</label>
+                        <select id="roundPipeMaterial">
+                            <option value="7850">Mild Steel (MS)</option>
+                            <option value="8000">Stainless Steel 304</option>
+                            <option value="2700">Aluminum</option>
+                            <option value="8900">Copper</option>
+                            <option value="8500">Brass</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roundPipeQuantity">Quantity</label>
+                        <input type="number" id="roundPipeQuantity" value="1" min="1" step="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateRoundPipe()">Calculate Round Pipe Weight</button>
+
+                <div id="roundPipeResult" class="result-box"></div>
+            </div>
+        </section>
+
+        <!-- Square Tube Calculator -->
+        <section id="squareTube" class="tab-content">
+            <div class="calculator-card">
+                <h2>▢ Square Tube Weight Calculator</h2>
+                <p class="help-text">Calculate weight of hollow square tube (SHS).</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="squareTubeWidth">Width</label>
+                        <input type="number" id="squareTubeWidth" value="50" min="0" step="0.1">
+                        <select id="squareTubeWidthUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareTubeHeight">Height</label>
+                        <input type="number" id="squareTubeHeight" value="50" min="0" step="0.1">
+                        <select id="squareTubeHeightUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareTubeThickness">Wall Thickness</label>
+                        <input type="number" id="squareTubeThickness" value="3" min="0" step="0.1">
+                        <select id="squareTubeThicknessUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareTubeLength">Length</label>
+                        <input type="number" id="squareTubeLength" value="6" min="0" step="0.01">
+                        <select id="squareTubeLengthUnit">
+                            <option value="m">metre</option>
+                            <option value="ft">feet</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareTubeMaterial">Material</label>
+                        <select id="squareTubeMaterial">
+                            <option value="7850">Mild Steel (MS)</option>
+                            <option value="8000">Stainless Steel 304</option>
+                            <option value="2700">Aluminum</option>
+                            <option value="8900">Copper</option>
+                            <option value="8500">Brass</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="squareTubeQuantity">Quantity</label>
+                        <input type="number" id="squareTubeQuantity" value="1" min="1" step="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateSquareTube()">Calculate Square Tube Weight</button>
+
+                <div id="squareTubeResult" class="result-box"></div>
+            </div>
+        </section>
+
+        <!-- Channel (ISMC) Calculator -->
+        <section id="channel" class="tab-content">
+            <div class="calculator-card">
+                <h2>🔲 Channel (ISMC) Weight Calculator</h2>
+                <p class="help-text">Calculate weight of Indian Standard Medium Channel.</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="channelHeight">Height (H)</label>
+                        <input type="number" id="channelHeight" value="100" min="0" step="0.1">
+                        <select id="channelHeightUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channelWidth">Flange Width (W)</label>
+                        <input type="number" id="channelWidth" value="50" min="0" step="0.1">
+                        <select id="channelWidthUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channelWebThickness">Web Thickness</label>
+                        <input type="number" id="channelWebThickness" value="5" min="0" step="0.1">
+                        <select id="channelWebThicknessUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channelFlangeThickness">Flange Thickness</label>
+                        <input type="number" id="channelFlangeThickness" value="7.5" min="0" step="0.1">
+                        <select id="channelFlangeThicknessUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channelLength">Length</label>
+                        <input type="number" id="channelLength" value="6" min="0" step="0.01">
+                        <select id="channelLengthUnit">
+                            <option value="m">metre</option>
+                            <option value="ft">feet</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channelMaterial">Material</label>
+                        <select id="channelMaterial">
+                            <option value="7850">Mild Steel (MS)</option>
+                            <option value="8000">Stainless Steel 304</option>
+                            <option value="2700">Aluminum</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channelQuantity">Quantity</label>
+                        <input type="number" id="channelQuantity" value="1" min="1" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channelStandard">Standard ISMC</label>
+                        <select id="channelStandard" onchange="loadChannelStandard()">
+                            <option value="">-- Select Standard --</option>
+                            <option value="75,40,4.8,7.2">ISMC 75</option>
+                            <option value="100,50,5,7.5">ISMC 100</option>
+                            <option value="125,65,5.3,8.1">ISMC 125</option>
+                            <option value="150,75,5.7,9.0">ISMC 150</option>
+                            <option value="200,75,6.2,10.8">ISMC 200</option>
+                            <option value="250,80,7.1,12.5">ISMC 250</option>
+                            <option value="300,90,7.8,13.6">ISMC 300</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateChannel()">Calculate Channel Weight</button>
+
+                <div id="channelResult" class="result-box"></div>
+            </div>
+        </section>
+
+        <!-- I-Beam (ISMB) Calculator -->
+        <section id="ibeam" class="tab-content">
+            <div class="calculator-card">
+                <h2>🏗️ I-Beam (ISMB) Weight Calculator</h2>
+                <p class="help-text">Calculate weight of Indian Standard Medium Beam.</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="ibeamHeight">Height (H)</label>
+                        <input type="number" id="ibeamHeight" value="150" min="0" step="0.1">
+                        <select id="ibeamHeightUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ibeamWidth">Flange Width (W)</label>
+                        <input type="number" id="ibeamWidth" value="80" min="0" step="0.1">
+                        <select id="ibeamWidthUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ibeamWebThickness">Web Thickness</label>
+                        <input type="number" id="ibeamWebThickness" value="5.4" min="0" step="0.1">
+                        <select id="ibeamWebThicknessUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ibeamFlangeThickness">Flange Thickness</label>
+                        <input type="number" id="ibeamFlangeThickness" value="9.0" min="0" step="0.1">
+                        <select id="ibeamFlangeThicknessUnit">
+                            <option value="mm">mm</option>
+                            <option value="inch">inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ibeamLength">Length</label>
+                        <input type="number" id="ibeamLength" value="6" min="0" step="0.01">
+                        <select id="ibeamLengthUnit">
+                            <option value="m">metre</option>
+                            <option value="ft">feet</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ibeamMaterial">Material</label>
+                        <select id="ibeamMaterial">
+                            <option value="7850">Mild Steel (MS)</option>
+                            <option value="8000">Stainless Steel 304</option>
+                            <option value="2700">Aluminum</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ibeamQuantity">Quantity</label>
+                        <input type="number" id="ibeamQuantity" value="1" min="1" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ibeamStandard">Standard ISMB</label>
+                        <select id="ibeamStandard" onchange="loadIBeamStandard()">
+                            <option value="">-- Select Standard --</option>
+                            <option value="100,75,4.0,7.2">ISMB 100</option>
+                            <option value="150,80,5.4,9.0">ISMB 150</option>
+                            <option value="200,100,5.7,10.8">ISMB 200</option>
+                            <option value="250,125,6.0,12.5">ISMB 250</option>
+                            <option value="300,140,6.7,13.1">ISMB 300</option>
+                            <option value="400,140,8.9,16.0">ISMB 400</option>
+                            <option value="450,150,9.4,17.4">ISMB 450</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateIBeam()">Calculate I-Beam Weight</button>
+
+                <div id="ibeamResult" class="result-box"></div>
+            </div>
+        </section>
+
         <!-- MS Flat Bar Calculator -->
         <section id="flatBar" class="tab-content">
             <div class="calculator-card">
@@ -1076,9 +1557,6 @@
             </div>
         </section>
 
-        <!-- Continue with other calculators (Angle, Round Bar, etc.) - These would follow the same pattern -->
-        <!-- For brevity, I'll add the remaining ones in a condensed format -->
-
         <!-- Saved Calculations -->
         <div class="saved-calculations">
             <h3>📋 Saved Calculations</h3>
@@ -1308,6 +1786,378 @@ function calculateSheet() {
         `;
     }
     
+    result.classList.add('show');
+}
+
+// Angle Calculator
+function loadAngleStandard() {
+    const val = document.getElementById('angleStandard').value;
+    if (!val) return;
+    
+    const [a, b, t] = val.split(',');
+    document.getElementById('angleA').value = a;
+    document.getElementById('angleB').value = b;
+    document.getElementById('angleThickness').value = t;
+    document.getElementById('angleAUnit').value = 'mm';
+    document.getElementById('angleBUnit').value = 'mm';
+    document.getElementById('angleThicknessUnit').value = 'mm';
+}
+
+function calculateAngle() {
+    const a = toMillimetres(
+        document.getElementById('angleA').value,
+        document.getElementById('angleAUnit').value
+    );
+    const b = toMillimetres(
+        document.getElementById('angleB').value,
+        document.getElementById('angleBUnit').value
+    );
+    const t = toMillimetres(
+        document.getElementById('angleThickness').value,
+        document.getElementById('angleThicknessUnit').value
+    );
+    const length = toMillimetres(
+        document.getElementById('angleLength').value,
+        document.getElementById('angleLengthUnit').value
+    );
+    const density = Number(document.getElementById('angleMaterial').value);
+    const quantity = Number(document.getElementById('angleQuantity').value) || 1;
+    const result = document.getElementById('angleResult');
+    
+    if (a <= 0 || b <= 0 || t <= 0 || length <= 0 || density <= 0) {
+        result.innerHTML = '⚠️ Please enter valid dimensions.';
+        result.classList.add('show');
+        return;
+    }
+    
+    // Cross-sectional area = (A + B - T) × T
+    const areaPerMetre = (a + b - t) * t;
+    const volumePerPiece = areaPerMetre * length / 1000000000;
+    const weightPerPiece = volumePerPiece * density;
+    const totalWeight = weightPerPiece * quantity;
+    const weightPerMetre = areaPerMetre * density / 1000000;
+    
+    result.innerHTML = `
+        <div class="result-main">
+            Total Weight: <strong>${formatNumber(totalWeight)} kg</strong>
+            <span>(${formatNumber(kgToLbs(totalWeight))} lbs)</span>
+        </div>
+        <div class="result-details">
+            Weight per piece: <strong>${formatNumber(weightPerPiece)} kg</strong><br>
+            Weight per metre: <strong>${formatNumber(weightPerMetre)} kg/m</strong><br>
+            Section: <strong>${formatNumber(a)}×${formatNumber(b)}×${formatNumber(t)} mm</strong><br>
+            Quantity: <strong>${quantity}</strong>
+        </div>
+    `;
+    result.classList.add('show');
+}
+
+// Round Bar Calculator
+function calculateRoundBar() {
+    const diameter = toMillimetres(
+        document.getElementById('roundBarDiameter').value,
+        document.getElementById('roundBarDiameterUnit').value
+    );
+    const length = toMillimetres(
+        document.getElementById('roundBarLength').value,
+        document.getElementById('roundBarLengthUnit').value
+    );
+    const density = Number(document.getElementById('roundBarMaterial').value);
+    const quantity = Number(document.getElementById('roundBarQuantity').value) || 1;
+    const result = document.getElementById('roundBarResult');
+    
+    if (diameter <= 0 || length <= 0 || density <= 0) {
+        result.innerHTML = '⚠️ Please enter valid dimensions.';
+        result.classList.add('show');
+        return;
+    }
+    
+    const radius = diameter / 2;
+    const volumePerPiece = Math.PI * radius * radius * length / 1000000000;
+    const weightPerPiece = volumePerPiece * density;
+    const totalWeight = weightPerPiece * quantity;
+    const weightPerMetre = Math.PI * radius * radius * density / 1000000;
+    
+    result.innerHTML = `
+        <div class="result-main">
+            Total Weight: <strong>${formatNumber(totalWeight)} kg</strong>
+            <span>(${formatNumber(kgToLbs(totalWeight))} lbs)</span>
+        </div>
+        <div class="result-details">
+            Weight per bar: <strong>${formatNumber(weightPerPiece)} kg</strong><br>
+            Weight per metre: <strong>${formatNumber(weightPerMetre)} kg/m</strong><br>
+            Diameter: <strong>${formatNumber(diameter)} mm</strong><br>
+            Formula: <strong>D²÷162 = ${formatNumber(diameter * diameter / 162, 3)} kg/m (MS)</strong><br>
+            Quantity: <strong>${quantity}</strong>
+        </div>
+    `;
+    result.classList.add('show');
+}
+
+// Square Bar Calculator
+function calculateSquareBar() {
+    const size = toMillimetres(
+        document.getElementById('squareBarSize').value,
+        document.getElementById('squareBarSizeUnit').value
+    );
+    const length = toMillimetres(
+        document.getElementById('squareBarLength').value,
+        document.getElementById('squareBarLengthUnit').value
+    );
+    const density = Number(document.getElementById('squareBarMaterial').value);
+    const quantity = Number(document.getElementById('squareBarQuantity').value) || 1;
+    const result = document.getElementById('squareBarResult');
+    
+    if (size <= 0 || length <= 0 || density <= 0) {
+        result.innerHTML = '⚠️ Please enter valid dimensions.';
+        result.classList.add('show');
+        return;
+    }
+    
+    const volumePerPiece = size * size * length / 1000000000;
+    const weightPerPiece = volumePerPiece * density;
+    const totalWeight = weightPerPiece * quantity;
+    const weightPerMetre = size * size * density / 1000000;
+    
+    result.innerHTML = `
+        <div class="result-main">
+            Total Weight: <strong>${formatNumber(totalWeight)} kg</strong>
+            <span>(${formatNumber(kgToLbs(totalWeight))} lbs)</span>
+        </div>
+        <div class="result-details">
+            Weight per bar: <strong>${formatNumber(weightPerPiece)} kg</strong><br>
+            Weight per metre: <strong>${formatNumber(weightPerMetre)} kg/m</strong><br>
+            Side: <strong>${formatNumber(size)} mm</strong><br>
+            Quantity: <strong>${quantity}</strong>
+        </div>
+    `;
+    result.classList.add('show');
+}
+
+// Round Pipe Calculator
+function calculateRoundPipe() {
+    const od = toMillimetres(
+        document.getElementById('roundPipeOD').value,
+        document.getElementById('roundPipeODUnit').value
+    );
+    const thickness = toMillimetres(
+        document.getElementById('roundPipeThickness').value,
+        document.getElementById('roundPipeThicknessUnit').value
+    );
+    const length = toMillimetres(
+        document.getElementById('roundPipeLength').value,
+        document.getElementById('roundPipeLengthUnit').value
+    );
+    const density = Number(document.getElementById('roundPipeMaterial').value);
+    const quantity = Number(document.getElementById('roundPipeQuantity').value) || 1;
+    const result = document.getElementById('roundPipeResult');
+    
+    if (od <= 0 || thickness <= 0 || length <= 0 || density <= 0 || thickness >= od/2) {
+        result.innerHTML = '⚠️ Please enter valid dimensions. Thickness must be less than radius.';
+        result.classList.add('show');
+        return;
+    }
+    
+    const outerRadius = od / 2;
+    const innerRadius = outerRadius - thickness;
+    const volumePerPiece = Math.PI * (outerRadius * outerRadius - innerRadius * innerRadius) * length / 1000000000;
+    const weightPerPiece = volumePerPiece * density;
+    const totalWeight = weightPerPiece * quantity;
+    const weightPerMetre = Math.PI * (outerRadius * outerRadius - innerRadius * innerRadius) * density / 1000000;
+    
+    result.innerHTML = `
+        <div class="result-main">
+            Total Weight: <strong>${formatNumber(totalWeight)} kg</strong>
+            <span>(${formatNumber(kgToLbs(totalWeight))} lbs)</span>
+        </div>
+        <div class="result-details">
+            Weight per pipe: <strong>${formatNumber(weightPerPiece)} kg</strong><br>
+            Weight per metre: <strong>${formatNumber(weightPerMetre)} kg/m</strong><br>
+            OD: <strong>${formatNumber(od)} mm</strong>, Wall: <strong>${formatNumber(thickness)} mm</strong><br>
+            Quantity: <strong>${quantity}</strong>
+        </div>
+    `;
+    result.classList.add('show');
+}
+
+// Square Tube Calculator
+function calculateSquareTube() {
+    const width = toMillimetres(
+        document.getElementById('squareTubeWidth').value,
+        document.getElementById('squareTubeWidthUnit').value
+    );
+    const height = toMillimetres(
+        document.getElementById('squareTubeHeight').value,
+        document.getElementById('squareTubeHeightUnit').value
+    );
+    const thickness = toMillimetres(
+        document.getElementById('squareTubeThickness').value,
+        document.getElementById('squareTubeThicknessUnit').value
+    );
+    const length = toMillimetres(
+        document.getElementById('squareTubeLength').value,
+        document.getElementById('squareTubeLengthUnit').value
+    );
+    const density = Number(document.getElementById('squareTubeMaterial').value);
+    const quantity = Number(document.getElementById('squareTubeQuantity').value) || 1;
+    const result = document.getElementById('squareTubeResult');
+    
+    if (width <= 0 || height <= 0 || thickness <= 0 || length <= 0 || density <= 0 || thickness >= width/2 || thickness >= height/2) {
+        result.innerHTML = '⚠️ Please enter valid dimensions.';
+        result.classList.add('show');
+        return;
+    }
+    
+    const outerArea = width * height;
+    const innerArea = (width - 2*thickness) * (height - 2*thickness);
+    const crossSection = outerArea - innerArea;
+    const volumePerPiece = crossSection * length / 1000000000;
+    const weightPerPiece = volumePerPiece * density;
+    const totalWeight = weightPerPiece * quantity;
+    const weightPerMetre = crossSection * density / 1000000;
+    
+    result.innerHTML = `
+        <div class="result-main">
+            Total Weight: <strong>${formatNumber(totalWeight)} kg</strong>
+            <span>(${formatNumber(kgToLbs(totalWeight))} lbs)</span>
+        </div>
+        <div class="result-details">
+            Weight per tube: <strong>${formatNumber(weightPerPiece)} kg</strong><br>
+            Weight per metre: <strong>${formatNumber(weightPerMetre)} kg/m</strong><br>
+            Section: <strong>${formatNumber(width)}×${formatNumber(height)}×${formatNumber(thickness)} mm</strong><br>
+            Quantity: <strong>${quantity}</strong>
+        </div>
+    `;
+    result.classList.add('show');
+}
+
+// Channel Calculator
+function loadChannelStandard() {
+    const val = document.getElementById('channelStandard').value;
+    if (!val) return;
+    
+    const [h, w, tw, tf] = val.split(',');
+    document.getElementById('channelHeight').value = h;
+    document.getElementById('channelWidth').value = w;
+    document.getElementById('channelWebThickness').value = tw;
+    document.getElementById('channelFlangeThickness').value = tf;
+}
+
+function calculateChannel() {
+    const height = toMillimetres(
+        document.getElementById('channelHeight').value,
+        document.getElementById('channelHeightUnit').value
+    );
+    const width = toMillimetres(
+        document.getElementById('channelWidth').value,
+        document.getElementById('channelWidthUnit').value
+    );
+    const webThickness = toMillimetres(
+        document.getElementById('channelWebThickness').value,
+        document.getElementById('channelWebThicknessUnit').value
+    );
+    const flangeThickness = toMillimetres(
+        document.getElementById('channelFlangeThickness').value,
+        document.getElementById('channelFlangeThicknessUnit').value
+    );
+    const length = toMillimetres(
+        document.getElementById('channelLength').value,
+        document.getElementById('channelLengthUnit').value
+    );
+    const density = Number(document.getElementById('channelMaterial').value);
+    const quantity = Number(document.getElementById('channelQuantity').value) || 1;
+    const result = document.getElementById('channelResult');
+    
+    if (height <= 0 || width <= 0 || webThickness <= 0 || flangeThickness <= 0 || length <= 0 || density <= 0) {
+        result.innerHTML = '⚠️ Please enter valid dimensions.';
+        result.classList.add('show');
+        return;
+    }
+    
+    // Approximate cross-section = (H-2Tf)×Tw + 2×W×Tf
+    const crossSection = (height - 2*flangeThickness) * webThickness + 2 * width * flangeThickness;
+    const volumePerPiece = crossSection * length / 1000000000;
+    const weightPerPiece = volumePerPiece * density;
+    const totalWeight = weightPerPiece * quantity;
+    const weightPerMetre = crossSection * density / 1000000;
+    
+    result.innerHTML = `
+        <div class="result-main">
+            Total Weight: <strong>${formatNumber(totalWeight)} kg</strong>
+            <span>(${formatNumber(kgToLbs(totalWeight))} lbs)</span>
+        </div>
+        <div class="result-details">
+            Weight per channel: <strong>${formatNumber(weightPerPiece)} kg</strong><br>
+            Weight per metre: <strong>${formatNumber(weightPerMetre)} kg/m</strong><br>
+            Section: <strong>ISMC ${formatNumber(height, 0)}</strong><br>
+            Quantity: <strong>${quantity}</strong>
+        </div>
+    `;
+    result.classList.add('show');
+}
+
+// I-Beam Calculator
+function loadIBeamStandard() {
+    const val = document.getElementById('ibeamStandard').value;
+    if (!val) return;
+    
+    const [h, w, tw, tf] = val.split(',');
+    document.getElementById('ibeamHeight').value = h;
+    document.getElementById('ibeamWidth').value = w;
+    document.getElementById('ibeamWebThickness').value = tw;
+    document.getElementById('ibeamFlangeThickness').value = tf;
+}
+
+function calculateIBeam() {
+    const height = toMillimetres(
+        document.getElementById('ibeamHeight').value,
+        document.getElementById('ibeamHeightUnit').value
+    );
+    const width = toMillimetres(
+        document.getElementById('ibeamWidth').value,
+        document.getElementById('ibeamWidthUnit').value
+    );
+    const webThickness = toMillimetres(
+        document.getElementById('ibeamWebThickness').value,
+        document.getElementById('ibeamWebThicknessUnit').value
+    );
+    const flangeThickness = toMillimetres(
+        document.getElementById('ibeamFlangeThickness').value,
+        document.getElementById('ibeamFlangeThicknessUnit').value
+    );
+    const length = toMillimetres(
+        document.getElementById('ibeamLength').value,
+        document.getElementById('ibeamLengthUnit').value
+    );
+    const density = Number(document.getElementById('ibeamMaterial').value);
+    const quantity = Number(document.getElementById('ibeamQuantity').value) || 1;
+    const result = document.getElementById('ibeamResult');
+    
+    if (height <= 0 || width <= 0 || webThickness <= 0 || flangeThickness <= 0 || length <= 0 || density <= 0) {
+        result.innerHTML = '⚠️ Please enter valid dimensions.';
+        result.classList.add('show');
+        return;
+    }
+    
+    // Approximate cross-section = (H-2Tf)×Tw + 2×W×Tf
+    const crossSection = (height - 2*flangeThickness) * webThickness + 2 * width * flangeThickness;
+    const volumePerPiece = crossSection * length / 1000000000;
+    const weightPerPiece = volumePerPiece * density;
+    const totalWeight = weightPerPiece * quantity;
+    const weightPerMetre = crossSection * density / 1000000;
+    
+    result.innerHTML = `
+        <div class="result-main">
+            Total Weight: <strong>${formatNumber(totalWeight)} kg</strong>
+            <span>(${formatNumber(kgToLbs(totalWeight))} lbs)</span>
+        </div>
+        <div class="result-details">
+            Weight per beam: <strong>${formatNumber(weightPerPiece)} kg</strong><br>
+            Weight per metre: <strong>${formatNumber(weightPerMetre)} kg/m</strong><br>
+            Section: <strong>ISMB ${formatNumber(height, 0)}</strong><br>
+            Quantity: <strong>${quantity}</strong>
+        </div>
+    `;
     result.classList.add('show');
 }
 
