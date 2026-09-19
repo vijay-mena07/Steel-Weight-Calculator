@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional steel weight calculator for sheets, plates, angles, bars, pipes, tubes, channels, I-beams, cones, and transitions. Calculate MS, stainless steel, aluminum weights with development patterns.">
-    <meta name="keywords" content="steel weight calculator, MS weight calculator, sheet metal calculator, cone development, transition calculator, metal weight">
+    <meta name="description" content="Professional steel weight calculator for sheets, plates, angles, bars, pipes, tubes, channels, I-beams, cones, transitions and metric bolts M6-M30.">
+    <meta name="keywords" content="steel weight calculator, MS weight calculator, bolt weight M6 M8 M10 M12, cone development, transition calculator">
     <meta name="author" content="Vijay Mena">
-    <title>Steel Weight Calculator - MS Sheet, Angle, Pipe, Cone & Transition Calculator</title>
+    <title>Steel Weight Calculator - Complete MS Sheet, Bolt, Cone & Transition Calculator</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
@@ -355,12 +355,12 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .reference-table th,
         .reference-table td {
-            padding: 10px;
+            padding: 10px 8px;
             border: 1px solid #cbd5e1;
             text-align: center;
         }
@@ -430,6 +430,30 @@
             margin-left: 15px;
         }
 
+        optgroup {
+            font-weight: bold;
+            color: #1e3a8a;
+            font-size: 14px;
+        }
+
+        .info-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .info-box h4 {
+            margin-top: 0;
+            color: #1e293b;
+        }
+
+        .info-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+            color: #475569;
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
@@ -440,8 +464,8 @@
             }
 
             .tab-btn {
-                padding: 10px 15px;
-                font-size: 13px;
+                padding: 10px 12px;
+                font-size: 12px;
             }
 
             .content-wrapper {
@@ -451,6 +475,15 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
+
+            .reference-table {
+                font-size: 11px;
+            }
+
+            .reference-table th,
+            .reference-table td {
+                padding: 6px 4px;
+            }
         }
     </style>
 </head>
@@ -459,27 +492,26 @@
 <div class="container">
     <header>
         <h1>⚙️ Steel Weight Calculator</h1>
-        <p>Professional calculator for MS sheets, angles, bars, pipes, channels, cones & transitions</p>
+        <p>Professional calculator for MS sheets, angles, bars, pipes, channels, cones, transitions & metric bolts</p>
     </header>
 
     <div class="tabs-container">
-        <button class="tab-btn active" onclick="showTab('areaWeight')">📐 Area Weight</button>
-        <button class="tab-btn" onclick="showTab('sheet')">📄 Sheet/Plate</button>
-        <button class="tab-btn" onclick="showTab('angle')">📐 Angle</button>
-        <button class="tab-btn" onclick="showTab('roundBar')">⚫ Round Bar</button>
-        <button class="tab-btn" onclick="showTab('squareBar')">⬛ Square Bar</button>
-        <button class="tab-btn" onclick="showTab('roundPipe')">⭕ Round Pipe</button>
-        <button class="tab-btn" onclick="showTab('squareTube')">▢ Square Tube</button>
-        <button class="tab-btn" onclick="showTab('channel')">🔲 Channel (ISMC)</button>
-        <button class="tab-btn" onclick="showTab('ibeam')">🏗️ I-Beam (ISMB)</button>
-        <button class="tab-btn" onclick="showTab('flatBar')">▬ MS Flat Bar</button>
-        <button class="tab-btn" onclick="showTab('boltAssembly')">🔩 Bolt + Nut + Washer</button>
-        <button class="tab-btn" onclick="showTab('coneCalculator')">🔺 Cone</button>
-        <button class="tab-btn" onclick="showTab('transitionCalculator')">🔄 Round Transition</button>
-        <button class="tab-btn" onclick="showTab('truncatedPyramidCalculator')">🔻 Pyramid Transition</button>
+        <button class="tab-btn active" onclick="showTab('areaWeight', this)">📐 Area Weight</button>
+        <button class="tab-btn" onclick="showTab('sheet', this)">📄 Sheet/Plate</button>
+        <button class="tab-btn" onclick="showTab('angle', this)">📐 Angle</button>
+        <button class="tab-btn" onclick="showTab('roundBar', this)">⚫ Round Bar</button>
+        <button class="tab-btn" onclick="showTab('squareBar', this)">⬛ Square Bar</button>
+        <button class="tab-btn" onclick="showTab('roundPipe', this)">⭕ Round Pipe</button>
+        <button class="tab-btn" onclick="showTab('squareTube', this)">▢ Square Tube</button>
+        <button class="tab-btn" onclick="showTab('channel', this)">🔲 Channel (ISMC)</button>
+        <button class="tab-btn" onclick="showTab('ibeam', this)">🏗️ I-Beam (ISMB)</button>
+        <button class="tab-btn" onclick="showTab('flatBar', this)">▬ MS Flat Bar</button>
+        <button class="tab-btn" onclick="showTab('boltAssembly', this)">🔩 Bolt + Nut + Washer</button>
+        <button class="tab-btn" onclick="showTab('coneCalculator', this)">🔺 Cone</button>
+        <button class="tab-btn" onclick="showTab('transitionCalculator', this)">🔄 Round Transition</button>
+        <button class="tab-btn" onclick="showTab('truncatedPyramidCalculator', this)">🔻 Pyramid Transition</button>
     </div>
 
-    <!-- Ad Container Top -->
     <div class="ad-container">
         <ins class="adsbygoogle"
              style="display:block"
@@ -1195,13 +1227,108 @@
             </div>
         </section>
 
-        <!-- Bolt Assembly Calculator -->
+        <!-- Bolt Assembly Calculator with OPTGROUPS -->
         <section id="boltAssembly" class="tab-content">
             <div class="calculator-card">
                 <h2>🔩 MS Bolt, Nut and Washer Weight Calculator</h2>
-                <p class="help-text">Calculate the approximate weight of a complete mild steel bolt assembly.</p>
+                <p class="help-text">Calculate the approximate weight of a complete mild steel bolt assembly with standard metric sizes.</p>
 
                 <div class="form-grid">
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="boltStandard">Standard Bolt Size & Length</label>
+                        <select id="boltStandard" onchange="loadBoltStandard()" style="font-size: 16px; font-weight: 600; padding: 12px;">
+                            <option value="">-- Select Standard Size & Length --</option>
+                            
+                            <optgroup label="M6 Bolts">
+                                <option value="6,20,10,4,10,5,12,6.4,1.6">M6 × 20mm</option>
+                                <option value="6,25,10,4,10,5,12,6.4,1.6">M6 × 25mm</option>
+                                <option value="6,30,10,4,10,5,12,6.4,1.6">M6 × 30mm</option>
+                                <option value="6,40,10,4,10,5,12,6.4,1.6">M6 × 40mm</option>
+                                <option value="6,50,10,4,10,5,12,6.4,1.6">M6 × 50mm</option>
+                                <option value="6,60,10,4,10,5,12,6.4,1.6">M6 × 60mm</option>
+                                <option value="6,80,10,4,10,5,12,6.4,1.6">M6 × 80mm</option>
+                                <option value="6,100,10,4,10,5,12,6.4,1.6">M6 × 100mm</option>
+                            </optgroup>
+                            
+                            <optgroup label="M8 Bolts">
+                                <option value="8,20,13,5.3,13,6.5,16,8.4,1.6">M8 × 20mm</option>
+                                <option value="8,25,13,5.3,13,6.5,16,8.4,1.6">M8 × 25mm</option>
+                                <option value="8,30,13,5.3,13,6.5,16,8.4,1.6">M8 × 30mm</option>
+                                <option value="8,40,13,5.3,13,6.5,16,8.4,1.6">M8 × 40mm</option>
+                                <option value="8,50,13,5.3,13,6.5,16,8.4,1.6">M8 × 50mm</option>
+                                <option value="8,60,13,5.3,13,6.5,16,8.4,1.6">M8 × 60mm</option>
+                                <option value="8,80,13,5.3,13,6.5,16,8.4,1.6">M8 × 80mm</option>
+                                <option value="8,100,13,5.3,13,6.5,16,8.4,1.6">M8 × 100mm</option>
+                                <option value="8,120,13,5.3,13,6.5,16,8.4,1.6">M8 × 120mm</option>
+                            </optgroup>
+                            
+                            <optgroup label="M10 Bolts">
+                                <option value="10,25,16,6.4,16,8,20,10.5,2">M10 × 25mm</option>
+                                <option value="10,30,16,6.4,16,8,20,10.5,2">M10 × 30mm</option>
+                                <option value="10,40,16,6.4,16,8,20,10.5,2">M10 × 40mm</option>
+                                <option value="10,50,16,6.4,16,8,20,10.5,2">M10 × 50mm</option>
+                                <option value="10,60,16,6.4,16,8,20,10.5,2">M10 × 60mm</option>
+                                <option value="10,80,16,6.4,16,8,20,10.5,2">M10 × 80mm</option>
+                                <option value="10,100,16,6.4,16,8,20,10.5,2">M10 × 100mm</option>
+                                <option value="10,120,16,6.4,16,8,20,10.5,2">M10 × 120mm</option>
+                                <option value="10,150,16,6.4,16,8,20,10.5,2">M10 × 150mm</option>
+                            </optgroup>
+                            
+                            <optgroup label="M12 Bolts">
+                                <option value="12,30,18,7.5,18,10,24,13,2.5">M12 × 30mm</option>
+                                <option value="12,40,18,7.5,18,10,24,13,2.5">M12 × 40mm</option>
+                                <option value="12,50,18,7.5,18,10,24,13,2.5">M12 × 50mm</option>
+                                <option value="12,60,18,7.5,18,10,24,13,2.5">M12 × 60mm</option>
+                                <option value="12,80,18,7.5,18,10,24,13,2.5">M12 × 80mm</option>
+                                <option value="12,100,18,7.5,18,10,24,13,2.5">M12 × 100mm</option>
+                                <option value="12,120,18,7.5,18,10,24,13,2.5">M12 × 120mm</option>
+                                <option value="12,150,18,7.5,18,10,24,13,2.5">M12 × 150mm</option>
+                                <option value="12,200,18,7.5,18,10,24,13,2.5">M12 × 200mm</option>
+                            </optgroup>
+                            
+                            <optgroup label="M16 Bolts">
+                                <option value="16,40,24,10,24,13,30,17,3">M16 × 40mm</option>
+                                <option value="16,50,24,10,24,13,30,17,3">M16 × 50mm</option>
+                                <option value="16,60,24,10,24,13,30,17,3">M16 × 60mm</option>
+                                <option value="16,80,24,10,24,13,30,17,3">M16 × 80mm</option>
+                                <option value="16,100,24,10,24,13,30,17,3">M16 × 100mm</option>
+                                <option value="16,120,24,10,24,13,30,17,3">M16 × 120mm</option>
+                                <option value="16,150,24,10,24,13,30,17,3">M16 × 150mm</option>
+                                <option value="16,200,24,10,24,13,30,17,3">M16 × 200mm</option>
+                            </optgroup>
+                            
+                            <optgroup label="M20 Bolts">
+                                <option value="20,50,30,12.5,30,16,37,21,3">M20 × 50mm</option>
+                                <option value="20,60,30,12.5,30,16,37,21,3">M20 × 60mm</option>
+                                <option value="20,80,30,12.5,30,16,37,21,3">M20 × 80mm</option>
+                                <option value="20,100,30,12.5,30,16,37,21,3">M20 × 100mm</option>
+                                <option value="20,120,30,12.5,30,16,37,21,3">M20 × 120mm</option>
+                                <option value="20,150,30,12.5,30,16,37,21,3">M20 × 150mm</option>
+                                <option value="20,200,30,12.5,30,16,37,21,3">M20 × 200mm</option>
+                            </optgroup>
+                            
+                            <optgroup label="M24 Bolts">
+                                <option value="24,60,36,15,36,19,44,25,4">M24 × 60mm</option>
+                                <option value="24,80,36,15,36,19,44,25,4">M24 × 80mm</option>
+                                <option value="24,100,36,15,36,19,44,25,4">M24 × 100mm</option>
+                                <option value="24,120,36,15,36,19,44,25,4">M24 × 120mm</option>
+                                <option value="24,150,36,15,36,19,44,25,4">M24 × 150mm</option>
+                                <option value="24,200,36,15,36,19,44,25,4">M24 × 200mm</option>
+                            </optgroup>
+                            
+                            <optgroup label="M30 Bolts">
+                                <option value="30,80,46,18.7,46,24,56,31,4">M30 × 80mm</option>
+                                <option value="30,100,46,18.7,46,24,56,31,4">M30 × 100mm</option>
+                                <option value="30,120,46,18.7,46,24,56,31,4">M30 × 120mm</option>
+                                <option value="30,150,46,18.7,46,24,56,31,4">M30 × 150mm</option>
+                                <option value="30,200,46,18.7,46,24,56,31,4">M30 × 200mm</option>
+                            </optgroup>
+                        </select>
+                        <small style="color: #64748b; margin-top: 5px; display: block;">
+                            ✅ Select a standard size to auto-calculate, or enter custom values below
+                        </small>
+                    </div>
+
                     <div class="form-group">
                         <label for="boltDiameter">Bolt Diameter</label>
                         <input type="number" id="boltDiameter" value="12" min="0" step="any">
@@ -1222,7 +1349,7 @@
 
                     <div class="form-group">
                         <label for="boltHeadAF">Bolt Head Across Flats</label>
-                        <input type="number" id="boltHeadAF" value="19" min="0" step="any">
+                        <input type="number" id="boltHeadAF" value="18" min="0" step="any">
                         <select id="boltHeadAFUnit">
                             <option value="mm">mm</option>
                             <option value="inch">inch</option>
@@ -1240,7 +1367,7 @@
 
                     <div class="form-group">
                         <label for="nutAF">Nut Across Flats</label>
-                        <input type="number" id="nutAF" value="19" min="0" step="any">
+                        <input type="number" id="nutAF" value="18" min="0" step="any">
                         <select id="nutAFUnit">
                             <option value="mm">mm</option>
                             <option value="inch">inch</option>
@@ -1297,6 +1424,126 @@
                 <button class="calculate-btn" onclick="calculateBoltAssembly()">Calculate Bolt Assembly Weight</button>
 
                 <div id="boltAssemblyResult" class="result-box"></div>
+
+                <!-- Standard Bolt Reference Table -->
+                <h3 style="margin-top: 30px;">Standard Metric Bolt Dimensions (ISO 4014/4017)</h3>
+                <table class="reference-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Diameter<br>(mm)</th>
+                            <th>Head AF<br>(mm)</th>
+                            <th>Head Ht<br>(mm)</th>
+                            <th>Nut AF<br>(mm)</th>
+                            <th>Nut Ht<br>(mm)</th>
+                            <th>Washer OD<br>(mm)</th>
+                            <th>Washer ID<br>(mm)</th>
+                            <th>Common Lengths</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>M6</strong></td>
+                            <td>6</td>
+                            <td>10</td>
+                            <td>4.0</td>
+                            <td>10</td>
+                            <td>5.0</td>
+                            <td>12</td>
+                            <td>6.4</td>
+                            <td>20, 25, 30, 40, 50, 60, 80, 100</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M8</strong></td>
+                            <td>8</td>
+                            <td>13</td>
+                            <td>5.3</td>
+                            <td>13</td>
+                            <td>6.5</td>
+                            <td>16</td>
+                            <td>8.4</td>
+                            <td>20, 25, 30, 40, 50, 60, 80, 100, 120</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M10</strong></td>
+                            <td>10</td>
+                            <td>16</td>
+                            <td>6.4</td>
+                            <td>16</td>
+                            <td>8.0</td>
+                            <td>20</td>
+                            <td>10.5</td>
+                            <td>25, 30, 40, 50, 60, 80, 100, 120, 150</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M12</strong></td>
+                            <td>12</td>
+                            <td>18</td>
+                            <td>7.5</td>
+                            <td>18</td>
+                            <td>10.0</td>
+                            <td>24</td>
+                            <td>13</td>
+                            <td>30, 40, 50, 60, 80, 100, 120, 150, 200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M16</strong></td>
+                            <td>16</td>
+                            <td>24</td>
+                            <td>10.0</td>
+                            <td>24</td>
+                            <td>13.0</td>
+                            <td>30</td>
+                            <td>17</td>
+                            <td>40, 50, 60, 80, 100, 120, 150, 200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M20</strong></td>
+                            <td>20</td>
+                            <td>30</td>
+                            <td>12.5</td>
+                            <td>30</td>
+                            <td>16.0</td>
+                            <td>37</td>
+                            <td>21</td>
+                            <td>50, 60, 80, 100, 120, 150, 200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M24</strong></td>
+                            <td>24</td>
+                            <td>36</td>
+                            <td>15.0</td>
+                            <td>36</td>
+                            <td>19.0</td>
+                            <td>44</td>
+                            <td>25</td>
+                            <td>60, 80, 100, 120, 150, 200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>M30</strong></td>
+                            <td>30</td>
+                            <td>46</td>
+                            <td>18.7</td>
+                            <td>46</td>
+                            <td>24.0</td>
+                            <td>56</td>
+                            <td>31</td>
+                            <td>80, 100, 120, 150, 200</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box">
+                    <h4>💡 Quick Tips:</h4>
+                    <ul>
+                        <li>Select any standard size from the dropdown for instant calculation</li>
+                        <li>All dimensions follow ISO standards (ISO 4014 for bolts, ISO 4032 for nuts, ISO 7089 for washers)</li>
+                        <li>You can modify any value after selecting a standard size</li>
+                        <li>Lengths shown are most common - custom lengths can be entered manually</li>
+                        <li>Weights include hexagonal head and nut geometry</li>
+                        <li>Thread weight is not included - actual weight may vary by 3-5%</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
@@ -1566,7 +1813,6 @@
 
     </div>
 
-    <!-- Ad Container Middle -->
     <div class="ad-container">
         <ins class="adsbygoogle"
              style="display:block"
@@ -1576,7 +1822,6 @@
              data-full-width-responsive="true"></ins>
     </div>
 
-    <!-- Ad Container Bottom -->
     <div class="ad-container">
         <ins class="adsbygoogle"
              style="display:block"
@@ -1624,15 +1869,15 @@ function formatNumber(value, decimals = 2) {
 }
 
 // Tab Management
-function showTab(tabName) {
+function showTab(tabName, btn) {
     const tabs = document.querySelectorAll('.tab-content');
     const btns = document.querySelectorAll('.tab-btn');
     
     tabs.forEach(tab => tab.classList.remove('active'));
-    btns.forEach(btn => btn.classList.remove('active'));
+    btns.forEach(b => b.classList.remove('active'));
     
     document.getElementById(tabName).classList.add('active');
-    event.target.classList.add('active');
+    if (btn) btn.classList.add('active');
 }
 
 // Sheet Mode Toggle
@@ -1671,12 +1916,9 @@ function calculateAreaWeight() {
         return;
     }
     
-    // Calculate area weight
     const areaWeightKgM2 = (thickness * density) / 1000000;
     const areaWeightLbsFt2 = areaWeightKgM2 * 0.2048;
-    
-    // Standard 8'x4' sheet
-    const sheetAreaM2 = 2.976; // 8 feet × 4 feet in m²
+    const sheetAreaM2 = 2.976;
     const sheetWeight = areaWeightKgM2 * sheetAreaM2;
     
     let totalWeightHTML = '';
@@ -1830,7 +2072,6 @@ function calculateAngle() {
         return;
     }
     
-    // Cross-sectional area = (A + B - T) × T
     const areaPerMetre = (a + b - t) * t;
     const volumePerPiece = areaPerMetre * length / 1000000000;
     const weightPerPiece = volumePerPiece * density;
@@ -2074,7 +2315,6 @@ function calculateChannel() {
         return;
     }
     
-    // Approximate cross-section = (H-2Tf)×Tw + 2×W×Tf
     const crossSection = (height - 2*flangeThickness) * webThickness + 2 * width * flangeThickness;
     const volumePerPiece = crossSection * length / 1000000000;
     const weightPerPiece = volumePerPiece * density;
@@ -2139,7 +2379,6 @@ function calculateIBeam() {
         return;
     }
     
-    // Approximate cross-section = (H-2Tf)×Tw + 2×W×Tf
     const crossSection = (height - 2*flangeThickness) * webThickness + 2 * width * flangeThickness;
     const volumePerPiece = crossSection * length / 1000000000;
     const weightPerPiece = volumePerPiece * density;
@@ -2209,6 +2448,32 @@ function hexagonAreaFromAcrossFlats(acrossFlats) {
     return 0.8660254038 * acrossFlats * acrossFlats;
 }
 
+// Load Bolt Standard - KEY FUNCTION
+function loadBoltStandard() {
+    const val = document.getElementById('boltStandard').value;
+    if (!val) return;
+    
+    const [d, length, headAF, headHeight, nutAF, nutHeight, washerOD, washerID, washerThickness] = val.split(',');
+    
+    document.getElementById('boltDiameter').value = d;
+    document.getElementById('boltLength').value = length;
+    document.getElementById('boltHeadAF').value = headAF;
+    document.getElementById('boltHeadHeight').value = headHeight;
+    document.getElementById('nutAF').value = nutAF;
+    document.getElementById('nutHeight').value = nutHeight;
+    document.getElementById('washerOD').value = washerOD;
+    document.getElementById('washerID').value = washerID;
+    document.getElementById('washerThickness').value = washerThickness;
+    
+    // Set all units to mm
+    ['boltDiameterUnit','boltLengthUnit','boltHeadAFUnit','boltHeadHeightUnit',
+     'nutAFUnit','nutHeightUnit','washerODUnit','washerIDUnit','washerThicknessUnit']
+    .forEach(id => document.getElementById(id).value = 'mm');
+    
+    // Auto-calculate
+    calculateBoltAssembly();
+}
+
 // Bolt Assembly Calculator
 function calculateBoltAssembly() {
     const d = toMillimetres(
@@ -2276,20 +2541,30 @@ function calculateBoltAssembly() {
     const weightPerAssembly = totalVolumePerAssembly / 1000000000 * MS_DENSITY;
     const totalWeight = weightPerAssembly * boltQuantity;
     
+    const boltOnlyWeight = (shankVolume + boltHeadVolume) / 1000000000 * MS_DENSITY;
+    const nutOnlyWeight = nutVolume / 1000000000 * MS_DENSITY;
+    const washerOnlyWeight = washerVolume / 1000000000 * MS_DENSITY;
+    
+    let boltDesignation = `M${formatNumber(d, 0)} × ${formatNumber(boltLength, 0)} mm`;
+    
     result.innerHTML = `
         <div class="result-main">
             Total Weight: <strong>${formatNumber(totalWeight, 3)} kg</strong>
             <span>(${formatNumber(kgToLbs(totalWeight), 3)} lbs)</span>
         </div>
         <div class="result-details">
+            Bolt specification: <strong>${boltDesignation}</strong><br>
             Weight per assembly: <strong>${formatNumber(weightPerAssembly, 3)} kg</strong><br>
+            Weight per bolt only: <strong>${formatNumber(boltOnlyWeight, 3)} kg</strong><br>
+            Weight per nut: <strong>${formatNumber(nutOnlyWeight, 3)} kg</strong><br>
+            Weight per washer: <strong>${formatNumber(washerOnlyWeight, 4)} kg</strong><br>
             Bolt quantity: <strong>${boltQuantity}</strong><br>
             Washers per assembly: <strong>${washerQuantity}</strong><br>
             Material: <strong>Mild Steel, density 7,850 kg/m³</strong>
         </div>
         <p class="calculation-note">
             Note: This is an approximate weight calculated from the entered geometric dimensions. 
-            Thread profiles, chamfers, fillets and coating weight are not included.
+            Thread profiles, chamfers, fillets and coating weight are not included. Dimensions are based on ISO 4014/4017 (bolts), ISO 4032 (nuts), and ISO 7089 (washers).
         </p>
     `;
     result.classList.add('show');
@@ -2683,14 +2958,14 @@ function generateReferenceTable() {
     const tbody = document.getElementById('referenceTableBody');
     tbody.innerHTML = '';
     
-    const sheetAreaM2 = 2.976; // 8' × 4'
+    const sheetAreaM2 = 2.976;
     
     thicknesses.forEach(t => {
         const kgM2 = (t * MS_DENSITY) / 1000000;
         const lbsFt2 = kgM2 * 0.2048;
         const sheetWeight = kgM2 * sheetAreaM2;
         
-        const row = `
+        tbody.innerHTML += `
             <tr>
                 <td>${t}</td>
                 <td>${formatNumber(kgM2)}</td>
@@ -2698,7 +2973,6 @@ function generateReferenceTable() {
                 <td>${formatNumber(sheetWeight)}</td>
             </tr>
         `;
-        tbody.innerHTML += row;
     });
 }
 
